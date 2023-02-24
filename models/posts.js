@@ -4,7 +4,7 @@ import { User } from "./auth.js";
 import { Likes } from "./likes.js";
 
 const DataTypes = SQ.DataTypes;
-const Sequelize = SQ.Sequelize;
+//const Sequelize = SQ.Sequelize;
 
 export const Posts = sequelize.define(
   "posts",
@@ -32,8 +32,8 @@ Posts.hasMany(Likes, { as: "l" });
 export const INCLUDE_USER = {
   attributes: [
     "postId",
-    [Sequelize.col("User.userId"), "userId"],
-    [Sequelize.col("User.nickname"), "nickname"],
+    [sequelize.col("User.userId"), "userId"],
+    [sequelize.col("User.nickname"), "nickname"],
     "title",
     "createdAt",
     "updatedAt",
@@ -47,8 +47,8 @@ export const INCLUDE_USER = {
 export const DETAIL_USER = {
   attributes: [
     "postId",
-    [Sequelize.col("User.userId"), "userId"],
-    [Sequelize.col("User.nickname"), "nickname"],
+    [sequelize.col("User.userId"), "userId"],
+    [sequelize.col("User.nickname"), "nickname"],
     "title",
     "content",
     "createdAt",
@@ -67,8 +67,8 @@ export const ORDER_DESC = {
 export const LIKE_COUNT = {
   attributes: [
     "postId",
-    [Sequelize.col("User.userId"), "userId"],
-    [Sequelize.col("User.nickname"), "nickname"],
+    [sequelize.col("User.userId"), "userId"],
+    [sequelize.col("User.nickname"), "nickname"],
     "title",
     "createdAt",
     "updatedAt",
