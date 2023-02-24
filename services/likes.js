@@ -6,7 +6,7 @@ class LikeService {
 
   getAllLikeService = async (_, res) => {
     try {
-      const posts = await this.likeRepository.likeGetAll();
+      const posts = await this.likeRepository.getAllLike();
       return res.status(200).json({
         data: [posts],
       });
@@ -23,25 +23,25 @@ class LikeService {
     const splitedToken = token.split(" ")[1];
     const decodedToken = jwt.decode(splitedToken);
 
-    const isExistPost = await this.likeRepository.likeSearch(postId);
+    const isExistPost = await this.likeRepository.searchLike(postId);
 
     if (!isExistPost) {
       return res.status(404).json({
         errorMessage: "게시글이 존재하지 않습니다.",
       });
     }
-    const isLike = await this.likeRepository.likeCheck(
+    const isLike = await this.likeRepository.checkLike(
       postId,
       decodedToken.userId
     );
 
     if (isLike == null) {
-      await this.likeRepository.likeCreate(postId, decodedToken.userId);
+      await this.likeRepository.createLike(postId, decodedToken.userId);
       return res
         .status(200)
         .json({ message: "게시글의 좋아요를 등록하였습니다." });
     } else if (isLike) {
-      await this.likeRepository.likeDelete(postId, decodedToken.userId);
+      await this.likeRepository.deleteLike(postId, decodedToken.userId);
       return res
         .status(200)
         .json({ message: "게시글의 좋아요를 취소하였습니다." });
