@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/auth.js";
 import dotenv from "dotenv";
+import { Users } from "../models/auth.js";
 dotenv.config();
 const secretKey = process.env.SECRETKEY;
 class AuthClass {
@@ -51,7 +51,7 @@ class AuthClass {
     }
 
     const decodedToken = jwt.decode(authToken);
-    const test = await User.findByPk(decodedToken.userId);
+    const test = await Users.findByPk(decodedToken.userId);
     if (test == null) {
       return res
         .status(403)

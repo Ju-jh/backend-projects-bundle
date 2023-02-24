@@ -1,6 +1,6 @@
 import SQ from "sequelize";
 import { sequelize } from "../db/database.js";
-import { User } from "./auth.js";
+import { Users } from "./auth.js";
 const DataTypes = SQ.DataTypes;
 //const Sequelize = SQ.Sequelize;
 
@@ -20,19 +20,19 @@ export const Comments = sequelize.define(
   },
   { timestamps: true }
 );
-Comments.belongsTo(User);
+Comments.belongsTo(Users);
 
 export const INCLUDE_USER = {
   attributes: [
     "commentId",
-    [sequelize.col("User.userId"), "userId"],
-    [sequelize.col("User.nickname"), "nickname"],
+    [sequelize.col("userId"), "userId"],
+    [sequelize.col("nickname"), "nickname"],
     "comment",
     "createdAt",
     "updatedAt",
   ],
   include: {
-    model: User,
+    model: Users,
     attributes: [],
   },
 };
