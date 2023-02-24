@@ -1,7 +1,7 @@
 {
-  "name": "homework2",
+  "name": "createbasicboard",
   "version": "1.0.0",
-  "description": "homework version2",
+  "description": "BasicBoard",
   "main": "app.js",
   "type": "module",
   "scripts": {
