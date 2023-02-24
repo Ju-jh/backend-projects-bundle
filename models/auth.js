@@ -3,7 +3,7 @@ import { sequelize } from "../db/database.js";
 
 const DataTypes = SQ.DataTypes;
 
-export const User = sequelize.define(
+export const Users = sequelize.define(
   "users",
   {
     userId: {

@@ -1,12 +1,12 @@
-import { User } from "../models/auth.js";
+import { Users } from "../models/auth.js";
 
 class AuthRepository {
   createUser = async (nickname, password) => {
-    return await User.create({ nickname, password });
+    return await Users.create({ nickname, password });
   };
 
   findByNickname = async (nickname) => {
-    return await User.findOne({ where: { nickname: nickname } });
+    return await Users.findOne({ where: { nickname: nickname } });
   };
 }
 

@@ -3,8 +3,8 @@ import {
   INCLUDE_USER,
   ORDER_DESC,
   DETAIL_USER,
-} from '../models/posts.js';
-import { User } from '../models/auth.js';
+} from "../models/posts.js";
+import { Users } from "../models/auth.js";
 
 class PostRepository {
   createPost = async (content, title, userId) => {
@@ -14,7 +14,7 @@ class PostRepository {
     return await Posts.findAll({ ...INCLUDE_USER, ...ORDER_DESC });
   };
   findByNickname = async (nickname) => {
-    return await User.findOne({ where: { nickname: nickname } });
+    return await Users.findOne({ where: { nickname: nickname } });
   };
   getByPostId = async (postId) => {
     return await Posts.findOne({

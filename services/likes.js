@@ -6,9 +6,9 @@ class LikeService {
 
   getAllLikeService = async (_, res) => {
     try {
-      const posts = await this.likeRepository.getAllLike();
+      const postLikeData = await this.likeRepository.getAllLike();
       return res.status(200).json({
-        data: [posts],
+        data: postLikeData,
       });
     } catch (error) {
       return res.status(400).json({
