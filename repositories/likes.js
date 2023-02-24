@@ -2,25 +2,25 @@ import { Likes } from "../models/likes.js";
 import { Posts, LIKE_COUNT } from "../models/posts.js";
 
 class LikeRepository {
-  likeGetAll = async () => {
+  getAllLike = async () => {
     return await Posts.findAll({ ...LIKE_COUNT, group: "postId" });
   };
 
-  likeSearch = async (postId) => {
+  searchLike = async (postId) => {
     return await Posts.findByPk(postId);
   };
 
-  likeCheck = async (postId, userId) => {
+  checkLike = async (postId, userId) => {
     return await Likes.findOne({
       where: { postPostId: postId, userUserId: userId },
     });
   };
 
-  likeCreate = async (postId, userId) => {
+  createLike = async (postId, userId) => {
     return await Likes.create({ postPostId: postId, userUserId: userId });
   };
 
-  likeDelete = async (postId, userId) => {
+  deleteLike = async (postId, userId) => {
     return await Likes.destroy({
       where: { postPostId: postId, userUserId: userId },
     });

@@ -1,7 +1,6 @@
 import { validationResult } from "express-validator";
 import { body } from "express-validator";
 
-//닉네임 패스워드 검사
 const validateCredential = [
   body("nickname")
     .trim()
@@ -14,7 +13,6 @@ const validateCredential = [
     .withMessage("password should be at least 4 characters"),
 ];
 
-//기본 유효성 검사
 export const validate = (req, res, next) => {
   validateCredential;
   const errors = validationResult(req);

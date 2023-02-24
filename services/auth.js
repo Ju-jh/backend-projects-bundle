@@ -9,8 +9,8 @@ class AuthService {
   createUserService = async (req, res) => {
     const { nickname, password, confirm } = req.body;
     const rex = /^[a-zA-Z0-9]{4,20}$/;
-    const nicknameCheck = rex.test(nickname);
-    if (!nicknameCheck) {
+    const isNicknameCheck = rex.test(nickname);
+    if (!isNicknameCheck) {
       return res
         .status(412)
         .json({ errorMessage: "닉네임의 형식이 일치하지 않습니다." });
@@ -25,8 +25,8 @@ class AuthService {
         errorMessage: "패스워드에 닉네임이 포함되어 있습니다.",
       });
     }
-    const found = await this.authRepository.findByUsername(nickname);
-    if (found != null) {
+    const isFindByNickname = await this.authRepository.findByNickname(nickname);
+    if (isFindByNickname != null) {
       return res.status(412).json({ errorMessage: "아이디가 중복입니다." });
     }
     await this.authRepository.createUser(nickname, password);
@@ -35,20 +35,20 @@ class AuthService {
 
   loginUserService = async (req, res) => {
     const { nickname, password } = req.body;
-    const user = await this.authRepository.findByUsername(nickname);
-    if (!user) {
+    const isFindByUser = await this.authRepository.findByNickname(nickname);
+    if (!isFindByUser) {
       return res
         .status(412)
         .json({ errorMessage: "닉네임 또는 패스워드를 확인해주세요." });
     }
-    const isValidPassword = await user.password.includes(password);
+    const isValidPassword = await isFindByUser.password.includes(password);
     if (!isValidPassword) {
       return res
         .status(412)
         .json({ errorMessage: "닉네임 또는 패스워드를 확인해주세요." });
     }
 
-    const crtoken = createJwtToken(user.userId, user.nickname);
+    const crtoken = createJwtToken(isFindByUser.userId, isFindByUser.nickname);
     const rftoken = createRefreshToken();
     const slicetoken1 = crtoken.slice(0, 10);
     const slicetoken2 = crtoken
@@ -66,6 +66,12 @@ class AuthService {
     function createRefreshToken() {
       return jwt.sign({}, secretKey, { expiresIn: "14d" });
     }
+  };
+
+  logoutUserService = async (_, res) => {
+    res.cookie("Authorization", "");
+    res.cookie("RefreshToken", "");
+    res.json({ message: "로그아웃 되었습니다." });
   };
 }
 
