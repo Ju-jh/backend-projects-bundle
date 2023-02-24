@@ -3,19 +3,19 @@ import CommentService from "../services/comments.js";
 class CommentController {
   commentService = new CommentService();
 
-  createComment = async (req, res) => {
+  createCommentController = async (req, res) => {
     return await this.commentService.createCommentService(req, res);
   };
 
-  getAllComment = async (_, res) => {
+  getAllCommentController = async (_, res) => {
     return await this.commentService.getAllCommentService(_, res);
   };
 
-  updateComment = async (req, res) => {
+  updateCommentController = async (req, res) => {
     return await this.commentService.updateCommentService(req, res);
   };
 
-  deleteComment = async (req, res) => {
+  deleteCommentController = async (req, res) => {
     return await this.commentService.deleteCommentService(req, res);
   };
 }

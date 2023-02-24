@@ -5,20 +5,24 @@ const commentController = new CommentController();
 const router = express.Router();
 const authClass = new AuthClass();
 
-router.post("/comments", authClass.isAuth, commentController.createComment);
+router.post(
+  "/comments",
+  authClass.isAuth,
+  commentController.createCommentController
+);
 
-router.get("/comments", commentController.getAllComment);
+router.get("/comments", commentController.getAllCommentController);
 
 router.put(
   "/comments/:commentId",
   authClass.isAuth,
-  commentController.updateComment
+  commentController.updateCommentController
 );
 
 router.delete(
   "/comments/:commentId",
   authClass.isAuth,
-  commentController.deleteComment
+  commentController.deleteCommentController
 );
 
 export default router;
