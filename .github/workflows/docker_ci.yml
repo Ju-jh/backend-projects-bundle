@@ -36,4 +36,4 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: ${{secrets.DOCKERHUB_USERNAME}}/express:test
+                  tags: ${{secrets.DOCKERHUB_USERNAME}}/node:v1.0
