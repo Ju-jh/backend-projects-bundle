@@ -1,0 +1,39 @@
+name: 'deploy'
+
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build the Docker image
+              run:
+                  docker build -f Dockerfile -t express .
+
+                  # 여기 까지는 여느 빌드와 다름 없다.
+
+    docker:
+        name: Deploy Docker Image
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v2
+              with:
+                  username: ${{secrets.DOCKERHUB_USERNAME}}
+                  password: ${{secrets.DOCKERHUB_TOKEN}}
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Build and push
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  push: true
+                  tags: ${{secrets.DOCKERHUB_USERNAME}}/express:test
