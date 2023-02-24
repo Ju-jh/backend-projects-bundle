@@ -1,6 +1,6 @@
 import SQ from "sequelize";
 import { sequelize } from "../db/database.js";
-import { User } from "./auth.js";
+import { Users } from "./auth.js";
 const DataTypes = SQ.DataTypes;
 
 export const Likes = sequelize.define(
@@ -15,4 +15,4 @@ export const Likes = sequelize.define(
   },
   { timestamps: false }
 );
-Likes.belongsTo(User);
+Likes.belongsTo(Users);
