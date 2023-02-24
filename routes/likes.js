@@ -5,8 +5,16 @@ const likeController = new LikeController();
 const router = express.Router();
 const authClass = new AuthClass();
 
-router.get("/posts/like", authClass.isAuth, likeController.getAllLike);
+router.get(
+  "/posts/like",
+  authClass.isAuth,
+  likeController.getAllLikeController
+);
 
-router.put("/posts/:postId/like", authClass.isAuth, likeController.updateLike);
+router.put(
+  "/posts/:postId/like",
+  authClass.isAuth,
+  likeController.updateLikeController
+);
 
 export default router;
