@@ -1,26 +1,26 @@
-import PostService from "../services/posts.js";
+import PostService from '../services/posts.js';
 
 class PostController {
   postService = new PostService();
 
-  createPost = async (req, res) => {
+  createPostController = async (req, res) => {
     return await this.postService.createPostService(req, res);
   };
 
-  getAllPost = async (_, res) => {
+  getAllPostController = async (_, res) => {
     return await this.postService.getAllPostService(_, res);
   };
 
-  getAllByIdPost = async (req, res) => {
+  getAllByIdPostController = async (req, res) => {
     return await this.postService.getDetailPostService(req, res);
   };
 
-  updatePost = async (req, res) => {
+  updatePostController = async (req, res) => {
     return await this.postService.updatePostService(req, res);
   };
 
-  deletePost = async (req, res) => {
-    return await this.postSelvice.deletePostService(req, res);
+  deletePostController = async (req, res) => {
+    return await this.postService.deletePostService(req, res);
   };
 }
 

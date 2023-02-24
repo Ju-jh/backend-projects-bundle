@@ -3,32 +3,32 @@ import {
   INCLUDE_USER,
   ORDER_DESC,
   DETAIL_USER,
-} from "../models/posts.js";
-import { User } from "../models/auth.js";
+} from '../models/posts.js';
+import { User } from '../models/auth.js';
 
 class PostRepository {
-  postCreate = async (content, title, userId) => {
+  createPost = async (content, title, userId) => {
     return await Posts.create({ content, title, userUserId: userId });
   };
-  getAll = async () => {
+  getAllPost = async () => {
     return await Posts.findAll({ ...INCLUDE_USER, ...ORDER_DESC });
   };
-  findByUsername = async (nickname) => {
+  findByNickname = async (nickname) => {
     return await User.findOne({ where: { nickname: nickname } });
   };
-  getById = async (postId) => {
+  getByPostId = async (postId) => {
     return await Posts.findOne({
       where: { postId },
       ...DETAIL_USER,
     });
   };
-  postUpdate = async (postId, title, content) => {
+  updatePost = async (postId, title, content) => {
     return await Posts.findByPk(postId, DETAIL_USER).then((post) => {
       (post.title = title), (post.content = content);
       return post.save();
     });
   };
-  postRemove = async (postId) => {
+  removePost = async (postId) => {
     return await Posts.findByPk(postId).then((post) => {
       post.destroy();
     });
