@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-import SQ from "sequelize";
+import dotenv from 'dotenv';
+import SQ from 'sequelize';
 dotenv.config();
 
 //env 담아오기
@@ -9,7 +9,7 @@ const password = process.env.DB_PASSWORD;
 
 //sequlize
 export const sequelize = new SQ.Sequelize(database, user, password, {
-  host: "127.0.0.1",
-  dialect: "mysql",
+  host: '172.18.0.2',
+  dialect: 'mysql',
   logging: true,
 });
