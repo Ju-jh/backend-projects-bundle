@@ -4,25 +4,27 @@
 💡 항해 99 미니 프로젝트 D반 1조 팀원들의
 미니 프로젝트에 대한 내용을 기입하는 첫 S.A. 페이지 입니다.
 
+노션 페이지 https://salt-rondeletia-199.notion.site/99-1-17173d37f64e4580a807b7e2b09358d7
+
 </aside>
 
 ## 0. 목차
 
-[**1. 프로젝트 명**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**1. 프로젝트 명**]
 
-[**2. 팀원**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**2. 팀원**]
 
-[**3. 소개**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**3. 소개**]
 
-[**4. 와이어프레임**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**4. 와이어프레임**]
 
-[**5.프로그램 세팅 및 작업**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**5.프로그램 세팅 및 작업**]
 
-[**6. API**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**6. API**]
 
-[**7. 기능구현 분담**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**7. 기능구현 분담**]
 
-[**8. 서버와 데이터베이스의 관계도**](https://www.notion.so/99-1-17173d37f64e4580a807b7e2b09358d7)
+[**8. 서버와 데이터베이스의 관계도**]
 
 ---
 
@@ -108,9 +110,7 @@
     
 - **ERD**
     
-    
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/18520a95-ef18-46c3-b07b-2fc38933ba06/Untitled.png)
+    노션 참조
 
 - **npm**
     
@@ -237,7 +237,7 @@
 | 협업 Tool | GitHub |
 | Node를 위한 framework | express.js |
 
-![제목 없음.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fa356235-6610-478c-9ca2-bc37112844e6/%EC%A0%9C%EB%AA%A9_%EC%97%86%EC%9D%8C.png)
+노션 
 
 </aside>
 
