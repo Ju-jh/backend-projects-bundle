@@ -4,7 +4,6 @@ import { Users } from "./auth.js";
 import { Likes } from "./likes.js";
 
 const DataTypes = SQ.DataTypes;
-//const Sequelize = SQ.Sequelize;
 
 export const Posts = sequelize.define(
   "posts",
@@ -35,6 +34,7 @@ export const INCLUDE_USER = {
     [sequelize.col("userId"), "userId"],
     [sequelize.col("nickname"), "nickname"],
     "title",
+    "content",
     "createdAt",
     "updatedAt",
   ],

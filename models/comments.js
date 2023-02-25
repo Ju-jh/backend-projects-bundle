@@ -2,7 +2,6 @@ import SQ from "sequelize";
 import { sequelize } from "../db/database.js";
 import { Users } from "./auth.js";
 const DataTypes = SQ.DataTypes;
-//const Sequelize = SQ.Sequelize;
 
 export const Comments = sequelize.define(
   "comments",
