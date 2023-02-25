@@ -240,7 +240,7 @@
 | 협업 Tool | GitHub |
 | Node를 위한 framework | express.js |
 
-노션 
+설명 이미지 --> 노션 참조
 
 </aside>
 
