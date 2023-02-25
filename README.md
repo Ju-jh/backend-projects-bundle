@@ -234,7 +234,6 @@
 | Container | Docker  |
 | DB | MySQL |
 | Linux | ubuntu |
-| API Document | Swagger (미 확정) |
 | Deploy | AWS EC2 |
 | 가상화 기술 | Docker hub |
 | 협업 Tool | GitHub |
