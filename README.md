@@ -1,10 +1,12 @@
 # createBasicSite
-
 <aside>
+노션 페이지 https://salt-rondeletia-199.notion.site/99-1-17173d37f64e4580a807b7e2b09358d7
+
+</aside>
 💡 항해 99 미니 프로젝트 D반 1조 팀원들의
 미니 프로젝트에 대한 내용을 기입하는 첫 S.A. 페이지 입니다.
 
-노션 페이지 https://salt-rondeletia-199.notion.site/99-1-17173d37f64e4580a807b7e2b09358d7
+<aside>
 
 </aside>
 
