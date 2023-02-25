@@ -7,8 +7,8 @@ import {
 import { Users } from "../models/auth.js";
 
 class PostRepository {
-  createPost = async (content, title, userId) => {
-    return await Posts.create({ content, title, userUserId: userId });
+  createPost = async (title, content, userId) => {
+    return await Posts.create({ title, content, userUserId: userId });
   };
   getAllPost = async () => {
     return await Posts.findAll({ ...INCLUDE_USER, ...ORDER_DESC });
