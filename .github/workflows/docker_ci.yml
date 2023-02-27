@@ -28,7 +28,7 @@ jobs:
            
             - name: Generate Environment Variables File for Production
               run: |
-                   echo "DB_USER=$DB_USER" >> .env.production
+                   echo "DB_USER=$DB_USER" >> .env
                    echo "DB_DATABASE=$DB_DATABASE" >> .env
                    echo "DB_PASSWORD=$DB_PASSWORD" >> .env
                    echo "HOST_PORT=$HOST_PORT" >> .env
