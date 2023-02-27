@@ -21,6 +21,24 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v3
+           
+            - uses: actions/setup-node@v2
+              with:
+                    node-version: '19'
+           
+            - name: Generate Environment Variables File for Production
+              run: |
+                   echo "DB_USER=$DB_USER" >> .env.production
+                   echo "DB_DATABASE=$DB_DATABASE" >> .env
+                   echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+                   echo "HOST_PORT=$HOST_PORT" >> .env
+                   echo "SECRETKEY=$SECRETKEY" >> .env
+              env:
+                   DB_USER: ${{ secrets.DB_USER }}
+                   DB_DATABASE: ${{ secrets.DB_DATABASE }}
+                   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+                   HOST_PORT: ${{ secrets.HOST_PORT }}
+                   SECRETKEY: ${{ secrets.SECRETKEY }}
 
             - name: Login to Docker Hub
               uses: docker/login-action@v2
