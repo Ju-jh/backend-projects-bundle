@@ -24,7 +24,7 @@ jobs:
            
             - uses: actions/setup-node@v2
               with:
-                    node-version: '19'
+                    node-version: '16'
            
             - name: Generate Environment Variables File for Production
               run: |
