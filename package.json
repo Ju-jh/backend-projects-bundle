@@ -1,7 +1,7 @@
 {
   "name": "tweet",
   "version": "0.0.1",
-  "description": "",
+  "description": "\"# CloneCoding_Twitter_BE\"",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -22,12 +22,18 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/jwt": "^10.0.2",
     "@nestjs/mapped-types": "^0.1.0",
+    "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.1.0",
     "class-transformer": "^0.3.1",
-    "class-validator": "^0.12.2",
     "mysql2": "^3.1.2",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -72,5 +78,18 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goingtodev/CloneCoding_Twitter_BE.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/goingtodev/CloneCoding_Twitter_BE/issues"
+  },
+  "homepage": "https://github.com/goingtodev/CloneCoding_Twitter_BE#readme"
 }
