@@ -1,13 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Request,
-  Response,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Request, Response, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @Controller('auth')
