@@ -14,7 +14,7 @@ import { TweetSoketModule } from './tweet_soket/tweet_soket.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '@Rhkdqnr1004',
+      password: 'whgustn5402!',
       database: 'tweet',
       entities: [],
       synchronize: true,
