@@ -18,9 +18,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-
-      password: 'whgustn5402!',
-
+      password: 'Qwer!234',
       database: 'tweet',
       entities: [User],
       synchronize: false,
