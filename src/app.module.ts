@@ -21,7 +21,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
       password: 'Rhkdqnr1004',
       database: 'tweet',
       entities: [User],
-      synchronize: false,
+      synchronize: true,
       autoLoadEntities: true,
     }),
     AuthModule,
