@@ -1,9 +1,7 @@
 import { IsString } from 'class-validator';
-import { User } from 'src/auth/user';
+import { User } from 'src/auth/dto/auth.dto';
 
 export class CreateTweetDto {
-  @Field(() => User)
-  user: User;
   @IsString()
   comment: string;
 }

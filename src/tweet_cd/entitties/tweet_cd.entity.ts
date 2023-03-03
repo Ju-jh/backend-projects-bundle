@@ -1,4 +1,11 @@
+import { Entity } from 'typeorm';
+
+@Entity
 export class tweet_cd {
-  user: string;
-  comment: string;
+  id: number;
+  _id: number;
+  username: string;
+  comments: string;
+  retweets: number;
+  likes: number;
 }
