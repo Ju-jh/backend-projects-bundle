@@ -19,6 +19,8 @@ export class UserService {
     return await this.userRepository
       .save(data)
       .then((res) => res)
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        throw new Error(e);
+      });
   }
 }

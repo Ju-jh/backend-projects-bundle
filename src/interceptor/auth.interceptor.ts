@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { UserService } from '../user/user.service';
+import { UserService } from '../tweet_user/user.service';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
