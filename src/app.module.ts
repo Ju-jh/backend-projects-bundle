@@ -10,6 +10,7 @@ import { User } from './tweet_user/entities/user.entity';
 import { UserModule } from './tweet_user/user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { Profile } from './tweet_profile/entities/profile.entity';
 
 @Module({
   imports: [
@@ -18,9 +19,9 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'Rhkdqnr1004',
+      password: '@Rhkdqnr1004',
       database: 'tweet',
-      entities: [User],
+      entities: [User, Profile],
       synchronize: true,
       autoLoadEntities: true,
     }),
