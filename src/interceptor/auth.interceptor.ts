@@ -12,7 +12,7 @@ import { UserService } from '../user/user.service';
 export class AuthInterceptor implements NestInterceptor {
   constructor(
     private authService: AuthService,
-    private usersService: UserService,
+    private userService: UserService,
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
