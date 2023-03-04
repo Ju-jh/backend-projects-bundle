@@ -9,7 +9,6 @@ export class UserController {
   @Post()
   createUser(@Body() userdata: CreateUserDto) {
     this.userService.createUser(userdata);
-
     return { message: '트위터 계정이 생성되었습니다.' };
   }
 }

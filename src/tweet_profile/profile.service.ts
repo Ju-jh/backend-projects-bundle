@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/tweet_user/entities/user.entity';
+import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { BasicProfileDto } from './dto/basicProfile.dto';
 import { CreateProfileDto } from './dto/createProfile.dto';
+import { DetailProfileDto } from './dto/detailProfile.dto';
 import { EditProfileDto } from './dto/editProfile.dto';
 import { Profile } from './entities/profile.entity';
 
@@ -13,14 +14,6 @@ export class ProfileService {
     @InjectRepository(Profile)
     private profileRepository: Repository<Profile>,
   ) {}
-
-  async getBasicProfile() {
-    return await this.profileRepository.find({
-      relations: {
-        user: true,
-      },
-    });
-  }
 
   async createProfile(
     profile: CreateProfileDto,
@@ -37,14 +30,27 @@ export class ProfileService {
     }
   }
 
-  //   async getDtailProfile(email: string): Promise<EditProfileDto> {
-  //     return await this.profileRepository.findOne({
-  //       where: { user_email: email },
-  //     });
-  //   }
+  async getBasicProfile(options: {
+    id: number;
+    email: string;
+  }): Promise<BasicProfileDto> {
+    const isUser = await this.profileRepository.findOne({
+      where: { userId: options.id },
+    });
+    return plainToClass(BasicProfileDto, isUser);
+  }
 
-  //   async editPlofile(email: string, data: Partial<EditProfileDto>) {
-  //     await this.profileRepository.update(data);
-  //     return await this.profileRepository.findOne({ email });
-  //   }
+  async getEditProfile(options: {
+    id: number;
+    email: string;
+  }): Promise<DetailProfileDto> {
+    const isUser = await this.profileRepository.findOne({
+      where: { userId: options.id },
+    });
+    return plainToClass(DetailProfileDto, isUser);
+  }
+
+  async editProfile(id: number, data: EditProfileDto) {
+    return await this.profileRepository.update({ userId: id }, data);
+  }
 }

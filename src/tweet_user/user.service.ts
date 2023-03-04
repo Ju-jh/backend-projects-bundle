@@ -12,10 +12,6 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findByEmail(data: string) {
-    return await this.userRepository.findOne({ where: { user_email: data } });
-  }
-
   async createUser(data: CreateUserDto): Promise<CreateUserDto> {
     try {
       await this.transformPassword(data);

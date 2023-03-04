@@ -7,9 +7,12 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { jwtConstants } from './constants';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/tweet_user/entities/user.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     UserModule,
     PassportModule,
     JwtModule.register({
@@ -17,7 +20,7 @@ import { jwtConstants } from './constants';
       signOptions: { expiresIn: '24h' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [TypeOrmModule, AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })
