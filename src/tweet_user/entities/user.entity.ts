@@ -1,11 +1,8 @@
-import { profile } from 'console';
-import { Profile } from 'src/tweet_profile/entities/profile.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 

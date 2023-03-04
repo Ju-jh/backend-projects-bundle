@@ -1,23 +1,15 @@
-import { Controller, Post, Request, Response, UseGuards } from '@nestjs/common';
-import { UserService } from 'src/tweet_user/user.service';
+import { Body, Controller, Post, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guard/local-auth.guard';
 
-@Controller('auth')
+@Controller('user')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private userService: UserService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req, @Response({ passthrough: true }) res) {
-    const email = req.user_email;
-    const isUser = await this.userService.findByEmail(email);
+  async login(@Body() body, @Response({ passthrough: true }) res) {
+    const isUser = await this.authService.findByEmail(body.user_email);
     const isLogin = await this.authService.login(isUser);
     res.cookie('Authentication', `Bearer ${isLogin}`);
-    console.log(isUser);
     return { message: '트위터에 오신걸 환영합니다.' };
   }
 
