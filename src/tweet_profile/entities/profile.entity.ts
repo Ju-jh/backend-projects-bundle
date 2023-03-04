@@ -25,7 +25,10 @@ export class Profile extends BaseEntity {
   @Column()
   photo: string;
 
+  @Column()
+  userId: number;
+
   @OneToOne(() => User, { eager: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'userId' })
   user: User;
 }
