@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { TweetSoketController } from './tweet_soket.controller';
+// import { Module } from '@nestjs/common';
+// import { TweetSocketGateway } from './tweet_soket.gateway';
 
-@Module({
-  controllers: [TweetSoketController]
-})
-export class TweetSoketModule {}
+// @Module({
+//   providers: [TweetSocketGateway],
+// })
+// export class TweetSoketModule {}
