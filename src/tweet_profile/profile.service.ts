@@ -53,4 +53,19 @@ export class ProfileService {
   async editProfile(id: number, data: EditProfileDto) {
     return await this.profileRepository.update({ userId: id }, data);
   }
+
+  async uploadImg(id: number, file) {
+    const test = Object.values(file)[5];
+    const fileName = `files/${test}`;
+    const newProfile = await this.findByIdAndUpdateImg(id, fileName);
+    return newProfile;
+  }
+
+  async findByIdAndUpdateImg(id: number, fileName: string) {
+    const isUser = await this.profileRepository.findOne({
+      where: { userId: id },
+    });
+    isUser.photo = `http://localhost:3001/profiles/${fileName}`;
+    return await this.profileRepository.save(isUser);
+  }
 }
