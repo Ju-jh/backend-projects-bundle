@@ -12,6 +12,8 @@ import { Profile } from './tweet_profile/entities/profile.entity';
 import CatchException from './exception/CatchException';
 import { TweetPostModule } from './tweet_post/tweet.module';
 import { TweetCommentModule } from './tweet_comment/tweet_comment.module';
+import { Tweet } from './tweet_post/entities/tweet.entity';
+import { TweetComment } from './tweet_comment/entities/tweet_comment.entity';
 
 @Module({
   imports: [
@@ -20,9 +22,9 @@ import { TweetCommentModule } from './tweet_comment/tweet_comment.module';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'Rhkdqnr1004',
+      password: 'whgustn5402!',
       database: 'tweet',
-      entities: [User, Profile],
+      entities: [User, Profile, Tweet, TweetComment],
       synchronize: true,
       autoLoadEntities: true,
     }),

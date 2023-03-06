@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Tweet } from 'src/tweet_post/entities/tweet.entity';
 import { Repository } from 'typeorm';
 import { BasicCommentDto } from './dto/basicComment.dto';
 import { CreateCommentDto } from './dto/createComment.dto';
@@ -11,10 +12,18 @@ export class TweetCommentService {
   constructor(
     @InjectRepository(TweetComment)
     private tweetCommentRepository: Repository<TweetComment>,
+    @InjectRepository(Tweet)
+    private tweetRepository: Repository<Tweet>,
   ) {}
 
   async getAllComment() {
     return await this.tweetCommentRepository.find();
+  }
+
+  async findByTweetId(id: number) {
+    return await this.tweetRepository.findOne({
+      where: { userId: id },
+    });
   }
 
   // async getOneComment(data: number): Promise<BasicCommentDto> {
@@ -26,12 +35,16 @@ export class TweetCommentService {
     id: number,
   ): Promise<CreateCommentDto> {
     try {
+      const isTweet = await this.findByTweetId(id);
+      console.log('#############', isTweet);
+      const tweetId = Object.values(isTweet)[0];
+
       const data = {
         ...tweetCommentData,
       };
-      console.log('@@@@@@@@@@@', data);
 
       data.userId = id;
+      data.tweetId = tweetId;
       return await this.tweetCommentRepository.save(data);
     } catch (e) {
       console.log(e);
