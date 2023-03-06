@@ -73,8 +73,12 @@ export class ProfileController {
   uploadImg(@UploadedFile() file, @Headers('cookie') cookie) {
     const info = this.authService.parseToken(cookie);
     const userId = Object.values(info)[0];
+    const test = Object.values(file)[5];
     this.profileService.uploadImg(+userId, file);
-    return { message: '프로필 이미지가 업데이트 되었습니다.' };
+    return {
+      message: '프로필 이미지가 업데이트 되었습니다.',
+      imgUrl: `http://localhost:3001/profile/upload/${test}`,
+    };
   }
 
   @Get('/upload/:filename')
