@@ -1,8 +1,10 @@
+import { Tweet } from 'src/tweet_post/entities/tweet.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -23,9 +25,15 @@ export class User extends BaseEntity {
   @Column()
   user_birthday?: string;
 
+  // @Column()
+  // tweetId: number;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
+
+  @OneToMany(() => Tweet, (tweet) => tweet.user)
+  tweet: Tweet[];
 }

@@ -31,6 +31,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.user_email,
+        tweetId: user.tweetId,
       },
     };
     const access_token = this.jwtService.sign(payload);

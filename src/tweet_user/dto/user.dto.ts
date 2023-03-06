@@ -3,7 +3,7 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateUserDto {
   @IsOptional()
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsString()
   user_email?: string;
@@ -16,4 +16,8 @@ export class CreateUserDto {
 
   @IsString()
   user_birthday?: string;
+
+  @IsOptional()
+  @IsNumber()
+  tweetId?: number;
 }
