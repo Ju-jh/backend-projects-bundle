@@ -6,7 +6,6 @@ import { BasicTweetDto } from './dto/basicTweet.dto';
 import { Tweet } from './entities/tweet.entity';
 import { plainToClass } from 'class-transformer';
 import { EditTweetDto } from './dto/editTweet.dto';
-import { DetailCommentDto } from 'src/tweet_comment/dto/detailComment.dto';
 import { DetailTweetDto } from './dto/detailTweet.dto';
 
 @Injectable()

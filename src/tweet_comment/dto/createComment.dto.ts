@@ -4,9 +4,9 @@ export class CreateCommentDto {
   @IsString()
   comments: string;
 
-  // @IsOptional()
-  // @IsNumber()
-  // tweetId: number;
+  @IsOptional()
+  @IsNumber()
+  tweetId: number;
 
   @IsOptional()
   @IsNumber()
