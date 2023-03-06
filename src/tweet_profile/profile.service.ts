@@ -56,7 +56,7 @@ export class ProfileService {
 
   async uploadImg(id: number, file) {
     const test = Object.values(file)[5];
-    const fileName = `files/${test}`;
+    const fileName = `upload/${test}`;
     const newProfile = await this.findByIdAndUpdateImg(id, fileName);
     return newProfile;
   }
@@ -65,7 +65,7 @@ export class ProfileService {
     const isUser = await this.profileRepository.findOne({
       where: { userId: id },
     });
-    isUser.photo = `http://localhost:3001/profiles/${fileName}`;
+    isUser.photo = `http://localhost:3001/profile/${fileName}`;
     return await this.profileRepository.save(isUser);
   }
 }
