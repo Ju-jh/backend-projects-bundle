@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateTweetDto {
   // @IsString()
@@ -10,8 +10,8 @@ export class CreateTweetDto {
   @IsNumber()
   likes?: number;
 
-  @IsNumber()
-  bookmark: number;
+  @IsBoolean()
+  bookmark: boolean;
 
   @IsOptional()
   @IsNumber()

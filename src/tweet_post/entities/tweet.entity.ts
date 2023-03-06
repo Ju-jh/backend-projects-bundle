@@ -18,7 +18,7 @@ export class Tweet {
   likes?: number;
 
   @Column()
-  bookmark: number;
+  bookmark: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',

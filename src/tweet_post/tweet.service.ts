@@ -17,40 +17,37 @@ export class TweetPostService {
 
   async createTweet(
     tweetData: CreateTweetDto,
-    id: number,
+    userId: number,
   ): Promise<CreateTweetDto> {
     try {
       const data = {
         ...tweetData,
       };
-      data.userId = id;
+      data.userId = userId;
       return await this.tweetRepository.save(data);
     } catch (e) {
       console.log(e);
     }
   }
 
-  async getAllTweet(id: number): Promise<BasicTweetDto[]> {
-    const isUser = await this.tweetRepository.find({ where: { userId: id } });
+  async getAllTweet(): Promise<BasicTweetDto[]> {
+    const isUser = await this.tweetRepository.find();
     return plainToClass(BasicTweetDto, isUser);
   }
 
-  async getOneTweet(options: {
-    id: number;
-    email: string;
-  }): Promise<DetailTweetDto> {
-    const isUser = await this.tweetRepository.findOne({
-      where: { userId: options.id },
+  async getOneTweet(userId: number): Promise<DetailTweetDto[]> {
+    const isUser = await this.tweetRepository.find({
+      where: { userId: userId },
     });
     return plainToClass(DetailTweetDto, isUser);
   }
 
-  async editTweet(id: number, data: EditTweetDto) {
-    const isUser = await this.tweetRepository.update({ userId: id }, data);
+  async editTweet(tweetId: number, data: EditTweetDto) {
+    const isUser = await this.tweetRepository.update({ id: tweetId }, data);
     return plainToClass(EditTweetDto, isUser);
   }
 
-  async deleteTweet(id: number) {
-    return await this.tweetRepository.delete(id);
+  async deleteTweet(tweetId: number) {
+    return await this.tweetRepository.delete(tweetId);
   }
 }

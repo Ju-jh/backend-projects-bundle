@@ -6,18 +6,20 @@ import {
   Get,
   Post,
   Headers,
+  Param,
 } from '@nestjs/common/decorators';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateTweetDto } from './dto/createTweet.dto';
 import { EditTweetDto } from './dto/editTweet.dto';
 import { TweetPostService } from './tweet.service';
 
-@Controller('tweet-post')
+@Controller('tweetpost')
 export class TweetPostController {
   constructor(
     private tweetService: TweetPostService,
     private authService: AuthService,
   ) {}
+
   @Post()
   createTweet(@Headers('cookie') cookie, @Body() tweetData: CreateTweetDto) {
     const info = this.authService.parseToken(cookie);
@@ -29,30 +31,26 @@ export class TweetPostController {
   }
 
   @Get()
-  async getAllTweet(@Headers('cookie') cookie) {
-    const info = this.authService.parseToken(cookie);
-    const userId = Object.values(info)[0];
-    return await this.tweetService.getAllTweet(+userId);
+  async getAllTweet() {
+    return await this.tweetService.getAllTweet();
   }
+
   @Get('/detail')
   async getOneTweet(@Headers('cookie') cookie) {
     const info = this.authService.parseToken(cookie);
-    return await this.tweetService.getOneTweet(info);
+    const userId = Object.values(info)[0];
+    return await this.tweetService.getOneTweet(+userId);
   }
 
-  @Put()
-  async editTweet(@Headers('cookie') cookie, @Body() updateData: EditTweetDto) {
-    const info = this.authService.parseToken(cookie);
-    const userId = Object.values(info)[0];
-    await this.tweetService.editTweet(+userId, updateData);
+  @Put('/:tweetId')
+  async editTweet(@Param('tweetId') tweetId, @Body() updateData: EditTweetDto) {
+    await this.tweetService.editTweet(+tweetId, updateData);
     return { message: '트윗이 수정되었습니다.' };
   }
 
-  @Delete()
-  async deleteTweet(@Headers('cookie') cookie) {
-    const info = this.authService.parseToken(cookie);
-    const userId = Object.values(info)[0];
-    await this.tweetService.deleteTweet(+userId);
+  @Delete('/:tweetId')
+  async deleteTweet(@Param('tweetId') tweetId) {
+    await this.tweetService.deleteTweet(+tweetId);
     return { message: '트윗이 삭제되었습니다.' };
   }
 }

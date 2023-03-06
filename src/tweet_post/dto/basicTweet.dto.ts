@@ -1,27 +1,26 @@
-import { Exclude, Expose } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Exclude, Expose, Transform } from 'class-transformer';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class BasicTweetDto {
+  @Expose()
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
+  @Expose()
+  @Transform((value, obj) => obj.user.user_email)
+  email: string;
+
   @Expose()
   @IsString()
   contents: string;
 
   @Expose()
   @IsNumber()
-  likes?: number;
+  likes: number;
 
   @Expose()
-  @IsNumber()
-  bookmark: number;
-
-  @Expose()
-  @IsOptional()
-  @IsNumber()
-  userId: number;
-
-  @Expose()
-  @IsOptional()
-  @IsNumber()
-  id: number;
+  @IsBoolean()
+  bookmark: boolean;
 }
