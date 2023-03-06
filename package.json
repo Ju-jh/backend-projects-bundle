@@ -26,6 +26,7 @@
     "@nestjs/mapped-types": "^0.1.0",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/platform-socket.io": "^9.3.9",
     "@nestjs/typeorm": "^9.0.1",
     "@nestjs/websockets": "^9.3.9",
     "@types/bcrypt": "^5.0.0",
