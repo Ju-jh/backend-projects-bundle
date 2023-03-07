@@ -5,7 +5,7 @@ export class LikeTweetDto {
   contents: string;
 
   @IsNumber()
-  likes?: number;
+  likes: number;
 
   @IsBoolean()
   bookmark: boolean;

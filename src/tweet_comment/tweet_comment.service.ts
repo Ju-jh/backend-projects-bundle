@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Tweet } from 'src/tweet_post/entities/tweet.entity';
 import { Repository } from 'typeorm';
 import { BasicCommentDto } from './dto/basicComment.dto';
 import { CreateCommentDto } from './dto/createComment.dto';
