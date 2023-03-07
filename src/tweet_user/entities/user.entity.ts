@@ -1,10 +1,8 @@
-import { Tweet } from 'src/tweet_post/entities/tweet.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
