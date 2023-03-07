@@ -1,9 +1,6 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateTweetDto {
-  // @IsString()
-  // user_name: string;
-
   @IsString()
   contents: string;
 

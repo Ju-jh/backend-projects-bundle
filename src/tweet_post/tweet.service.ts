@@ -10,6 +10,7 @@ import { DetailTweetDto } from './dto/detailTweet.dto';
 import { Bookmark } from './entities/tweetBookmark.entity';
 import { LikeTweetDto } from './dto/likeTweet.dto';
 import { Like } from './entities/tweetLike.entity';
+import { BookmarkTweetDto } from './dto/bookmarkTweet.dto';
 
 @Injectable()
 export class TweetPostService {
@@ -91,11 +92,11 @@ export class TweetPostService {
     return tweetIds;
   }
 
-  async checkTweets(tweetIds: number[]): Promise<BasicTweetDto[]> {
+  async checkTweets(tweetIds: number[]): Promise<BookmarkTweetDto[]> {
     const tweets = await this.tweetRepository.find({
       where: { id: In(tweetIds) },
     });
-    return plainToClass(BasicTweetDto, tweets);
+    return plainToClass(BookmarkTweetDto, tweets);
   }
 
   async checkLike(tweetId: number, userId: number) {
@@ -104,25 +105,24 @@ export class TweetPostService {
     });
   }
 
-  createLike = async (tweetId: number, userId: number) => {
+  async createLike(tweetId: number, userId: number) {
     return await this.LikeRepository.save({
       tweetId: tweetId,
       userId: userId,
     });
-  };
+  }
 
-  deleteLike = async (tweetId: number, userId: number) => {
+  async deleteLike(tweetId: number, userId: number) {
     const findLike = await this.LikeRepository.findOne({
       where: { tweetId: tweetId, userId: userId },
     });
     await this.LikeRepository.remove(findLike);
-  };
+  }
 
   async countLikes(tweetId: number): Promise<number> {
     const countTweet = await this.LikeRepository.find({
       where: { tweetId: tweetId },
     });
-
     return countTweet.length;
   }
 

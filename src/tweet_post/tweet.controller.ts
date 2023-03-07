@@ -24,37 +24,10 @@ export class TweetPostController {
   createTweet(@Headers('cookie') cookie, @Body() tweetData: CreateTweetDto) {
     const info = this.authService.parseToken(cookie);
     const userId = Object.values(info)[0];
-    console.log(userId);
-
     this.tweetService.createTweet(tweetData, +userId);
     return { message: '트윗이 생성되었습니다.' };
   }
 
-  @Put('/:id')
-  async addBookmark(@Headers('cookie') cookie, @Param('id') tweetid: number) {
-    const info = this.authService.parseToken(cookie);
-    const userId = Object.values(info)[0];
-    const isBookmark = await this.tweetService.checkBookmark(tweetid, +userId);
-    if (isBookmark == null) {
-      await this.tweetService.addBookmark(tweetid, +userId);
-      return { message: '북마크가 추가 되었습니다.' };
-    }
-    await this.tweetService.deleteBookmark(tweetid, +userId);
-    return { message: '북마크가 취소 되었습니다.' };
-  }
-
-  @Get('/bookmark')
-  async getBookmark(@Headers('cookie') cookie) {
-    const info = this.authService.parseToken(cookie);
-    const userId = Object.values(info)[0];
-    const myBookmark = await this.tweetService.getBookmark(+userId);
-    const ismyBookmark = Object.values(myBookmark);
-    const tweetIds = await this.tweetService.checkTweetId(ismyBookmark);
-    const tweets = await this.tweetService.checkTweets(tweetIds);
-    console.log(typeof tweetIds);
-
-    return tweets;
-  }
   @Get()
   async getAllTweet() {
     return await this.tweetService.getAllTweet();
@@ -78,6 +51,31 @@ export class TweetPostController {
     await this.tweetService.deleteTweet(+tweetId);
     return { message: '트윗이 삭제되었습니다.' };
   }
+
+  @Get('/bookmark')
+  async getBookmark(@Headers('cookie') cookie) {
+    const info = this.authService.parseToken(cookie);
+    const userId = Object.values(info)[0];
+    const myBookmark = await this.tweetService.getBookmark(+userId);
+    const ismyBookmark = Object.values(myBookmark);
+    const tweetIds = await this.tweetService.checkTweetId(ismyBookmark);
+    const tweets = await this.tweetService.checkTweets(tweetIds);
+    return tweets;
+  }
+
+  @Put('bookmark/:id')
+  async addBookmark(@Headers('cookie') cookie, @Param('id') tweetid: number) {
+    const info = this.authService.parseToken(cookie);
+    const userId = Object.values(info)[0];
+    const isBookmark = await this.tweetService.checkBookmark(tweetid, +userId);
+    if (isBookmark == null) {
+      await this.tweetService.addBookmark(tweetid, +userId);
+      return { message: '북마크가 추가 되었습니다.' };
+    }
+    await this.tweetService.deleteBookmark(tweetid, +userId);
+    return { message: '북마크가 취소 되었습니다.' };
+  }
+
   @Put('like/:tweetId')
   async updateLike(
     @Headers('cookie') cookie,
