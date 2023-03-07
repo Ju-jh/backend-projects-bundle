@@ -4,5 +4,5 @@ WORKDIR /main.ts
 ADD . /main.ts/
 RUN npm install --legacy-peer-deps
 Run npm run build
-EXPOSE 3000
+EXPOSE 3001
 ENTRYPOINT npm run start:prod
