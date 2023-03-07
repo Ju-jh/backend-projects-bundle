@@ -16,8 +16,8 @@ export class ProfileService {
   ) {}
 
   async createProfile(
-    profile: CreateProfileDto,
     id: number,
+    profile: CreateProfileDto,
   ): Promise<CreateProfileDto> {
     try {
       const data = {

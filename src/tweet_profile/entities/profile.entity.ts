@@ -20,7 +20,7 @@ export class Profile extends BaseEntity {
   location: string;
 
   @Column()
-  website?: string;
+  website: string;
 
   @Column()
   photo: string;

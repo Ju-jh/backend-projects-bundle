@@ -22,7 +22,6 @@ import { diskStorage } from 'multer';
 export class ProfileController {
   constructor(
     private profileService: ProfileService,
-
     private authService: AuthService,
   ) {}
 
@@ -33,7 +32,7 @@ export class ProfileController {
   ) {
     const info = this.authService.parseToken(cookie);
     const userId = Object.values(info)[0];
-    this.profileService.createProfile(profiledata, +userId);
+    this.profileService.createProfile(+userId, profiledata);
     return { message: '프로필 정보가 등록되었습니다.' };
   }
 
