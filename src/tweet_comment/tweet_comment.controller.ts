@@ -17,7 +17,6 @@ import { TweetCommentService } from './tweet_comment.service';
 export class TweetCommentController {
   constructor(
     private tweetCommentService: TweetCommentService,
-
     private authService: AuthService,
   ) {}
 

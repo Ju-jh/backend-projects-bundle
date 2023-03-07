@@ -1,5 +1,5 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class BasicCommentDto {
@@ -17,6 +17,6 @@ export class BasicCommentDto {
   comments: string;
 
   @Expose()
-  @Transform((value, obj) => obj.tweet.createdAt)
-  createdAt: string;
+  @IsDate()
+  createdAt: Date;
 }
