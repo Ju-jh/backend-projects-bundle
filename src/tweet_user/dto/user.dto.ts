@@ -6,16 +6,16 @@ export class CreateUserDto {
   id: number;
 
   @IsString()
-  user_email?: string;
+  user_email: string;
 
   @IsString()
   user_name: string;
 
   @IsString()
-  user_password?: string;
+  user_password: string;
 
   @IsString()
-  user_birthday?: string;
+  user_birthday: string;
 
   @IsOptional()
   @IsNumber()
