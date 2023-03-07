@@ -10,6 +10,7 @@ import { TweetPostModule } from './tweet_post/tweet.module';
 import { TweetCommentModule } from './tweet_comment/tweet_comment.module';
 import { Tweet } from './tweet_post/entities/tweet.entity';
 import { TweetComment } from './tweet_comment/entities/tweet_comment.entity';
+import { Like } from './tweet_post/entities/tweetLike.entity';
 
 @Module({
   imports: [
@@ -18,9 +19,9 @@ import { TweetComment } from './tweet_comment/entities/tweet_comment.entity';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'Rhkdqnr1004',
+      password: 'Qwer!234',
       database: 'tweet',
-      entities: [User, Profile, Tweet, TweetComment],
+      entities: [User, Profile, Tweet, TweetComment, Like],
       synchronize: true,
       autoLoadEntities: true,
     }),

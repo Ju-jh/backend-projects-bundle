@@ -78,4 +78,24 @@ export class TweetPostController {
     await this.tweetService.deleteTweet(+tweetId);
     return { message: '트윗이 삭제되었습니다.' };
   }
+  @Put('like/:tweetId')
+  async updateLike(
+    @Headers('cookie') cookie,
+    @Param('tweetId') tweetid: number,
+  ) {
+    const info = this.authService.parseToken(cookie);
+    const userId = Object.values(info)[0];
+    const isLike = await this.tweetService.checkLike(tweetid, +userId);
+    if (isLike == null) {
+      await this.tweetService.createLike(tweetid, +userId);
+      const countLikes = await this.tweetService.countLikes(tweetid);
+      await this.tweetService.updateLikes(tweetid, countLikes);
+      return { message: '트윗의 좋아요를 등록하였습니다.' };
+    } else if (isLike) {
+      await this.tweetService.deleteLike(tweetid, +userId);
+      const countLikes = await this.tweetService.countLikes(tweetid);
+      await this.tweetService.updateLikes(tweetid, countLikes);
+      return { message: '트윗의 좋아요를 해제하였습니다.' };
+    }
+  }
 }
