@@ -2,29 +2,38 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { ProfileModule } from './profile/profile.module';
-import { TweetCdModule } from './tweet_cd/tweet_cd.module';
-import { TweetRModule } from './tweet_r/tweet_r.module';
-import { TweetSoketModule } from './tweet_soket/tweet_soket.module';
-
+import { ProfileModule } from './tweet_profile/profile.module';
+import { User } from './tweet_user/entities/user.entity';
+import { UserModule } from './tweet_user/user.module';
+import { Profile } from './tweet_profile/entities/profile.entity';
+import { TweetPostModule } from './tweet_post/tweet.module';
+import { TweetCommentModule } from './tweet_comment/tweet_comment.module';
+import { Tweet } from './tweet_post/entities/tweet.entity';
+import { TweetComment } from './tweet_comment/entities/tweet_comment.entity';
+import { Like } from './tweet_post/entities/tweetLike.entity';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '@Rhkdqnr1004',
-      database: 'tweet',
-      entities: [],
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PW,
+      database: process.env.DB_DATABASE,
+      entities: [User, Profile, Tweet, TweetComment, Like],
       synchronize: true,
       autoLoadEntities: true,
     }),
     AuthModule,
     ProfileModule,
-    TweetCdModule,
-    TweetRModule,
-    TweetSoketModule,
+    UserModule,
+    TweetPostModule,
+    TweetCommentModule,
   ],
   controllers: [AppController],
   providers: [],
