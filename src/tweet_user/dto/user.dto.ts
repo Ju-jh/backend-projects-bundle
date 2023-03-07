@@ -16,8 +16,4 @@ export class CreateUserDto {
 
   @IsString()
   user_birthday: string;
-
-  @IsOptional()
-  @IsNumber()
-  tweetId: number;
 }
