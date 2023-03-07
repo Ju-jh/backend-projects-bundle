@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateTweetDto } from './dto/createTweet.dto';
 import { BasicTweetDto } from './dto/basicTweet.dto';
 import { Tweet } from './entities/tweet.entity';
 import { plainToClass } from 'class-transformer';
 import { EditTweetDto } from './dto/editTweet.dto';
 import { DetailTweetDto } from './dto/detailTweet.dto';
+import { Bookmark } from './entities/tweetBookmark.entity';
 
 @Injectable()
 export class TweetPostService {
   constructor(
     @InjectRepository(Tweet)
     private tweetRepository: Repository<Tweet>,
+    @InjectRepository(Bookmark)
+    private BookmarkRepository: Repository<Bookmark>,
   ) {}
 
   async createTweet(
@@ -49,5 +52,45 @@ export class TweetPostService {
 
   async deleteTweet(tweetId: number) {
     return await this.tweetRepository.delete(tweetId);
+  }
+
+  async checkBookmark(tweetid: number, userid: number) {
+    return await this.BookmarkRepository.findOne({
+      where: { userId: userid, tweetId: tweetid },
+    });
+  }
+  async addBookmark(tweetid: number, userid: number) {
+    return await this.BookmarkRepository.save({
+      tweetId: tweetid,
+      userId: userid,
+    });
+  }
+
+  async deleteBookmark(tweetid: number, userid: number) {
+    const findBookmark: Bookmark = await this.BookmarkRepository.findOne({
+      where: { userId: userid, tweetId: tweetid },
+    });
+
+    return await this.BookmarkRepository.remove(findBookmark);
+  }
+
+  async getBookmark(userid: number) {
+    return await this.BookmarkRepository.find({
+      where: { userId: userid },
+    });
+  }
+
+  async checkTweetId(
+    bookmarks: { id: number; userId: number; tweetId: number }[],
+  ): Promise<number[]> {
+    const tweetIds = bookmarks.map((bookmark) => bookmark.tweetId);
+    return tweetIds;
+  }
+
+  async checkTweets(tweetIds: number[]): Promise<BasicTweetDto[]> {
+    const tweets = await this.tweetRepository.find({
+      where: { id: In(tweetIds) },
+    });
+    return plainToClass(BasicTweetDto, tweets);
   }
 }
