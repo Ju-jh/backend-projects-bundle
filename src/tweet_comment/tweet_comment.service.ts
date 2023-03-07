@@ -14,8 +14,6 @@ export class TweetCommentService {
   constructor(
     @InjectRepository(TweetComment)
     private tweetCommentRepository: Repository<TweetComment>,
-    @InjectRepository(Tweet)
-    private tweetRepository: Repository<Tweet>,
   ) {}
 
   async getAllComment(): Promise<BasicCommentDto[]> {
