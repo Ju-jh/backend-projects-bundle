@@ -21,7 +21,7 @@ export class User extends BaseEntity {
   user_password: string;
 
   @Column()
-  user_birthday?: string;
+  user_birthday: string;
 
   @CreateDateColumn({
     type: 'timestamp',
