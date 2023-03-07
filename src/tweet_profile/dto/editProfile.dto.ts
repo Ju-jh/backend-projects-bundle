@@ -11,7 +11,7 @@ export class EditProfileDto {
   location: string;
 
   @IsString()
-  website?: string;
+  website: string;
 
   @IsOptional()
   @IsNumber()

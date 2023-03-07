@@ -9,11 +9,11 @@ export class BasicProfileDto {
 
   @Expose()
   @Transform((value, obj) => obj.user.user_name)
-  user_name: string;
+  name: string;
 
   @Expose()
   @Transform((value, obj) => obj.user.user_email)
-  user_email: string;
+  email: string;
 
   @Expose()
   @Transform((value, obj) => obj.user.createdAt)
