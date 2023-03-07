@@ -10,7 +10,7 @@ export class BasicCommentDto {
 
   @Expose()
   @Transform((value, obj) => obj.user.user_name)
-  user_name: string;
+  name: string;
 
   @Expose()
   @IsString()

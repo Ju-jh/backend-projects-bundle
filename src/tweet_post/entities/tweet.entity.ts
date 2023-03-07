@@ -15,7 +15,7 @@ export class Tweet {
   contents: string;
 
   @Column()
-  likes?: number;
+  likes: number;
 
   @Column()
   bookmark: boolean;

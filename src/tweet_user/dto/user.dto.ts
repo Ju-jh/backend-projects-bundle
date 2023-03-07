@@ -19,5 +19,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsNumber()
-  tweetId?: number;
+  tweetId: number;
 }
