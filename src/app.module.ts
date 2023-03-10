@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AmuwikiModule } from './amuwiki/amuwiki.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AmuwikiModule } from './amuwiki/amuwiki.module';
       inject: [ConfigService],
     }),
     AmuwikiModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
