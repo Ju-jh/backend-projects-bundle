@@ -8,6 +8,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { ProductModule } from './product/product.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AmuwikiModule } from './amuwiki/amuwiki.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AmuwikiModule } from './amuwiki/amuwiki.module';
     }),
     ProductModule,
     AmuwikiModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
