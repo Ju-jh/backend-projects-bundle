@@ -1,32 +1,20 @@
 # MongoDB connection string
 mongo-url = "mongodb+srv://sparta:wy2K1r5YENz7v2Jh@amuwiki.ldisv.mongodb.net/nest?retryWrites=true&w=majority"
 
+
 # Elasticsearch connection information
-es-url = "https://amuwiki.es.asia-northeast3.gcp.elastic-cloud.com"
+elasticsearch-urls = ["https://amuwiki.es.asia-northeast3.gcp.elastic-cloud.com"]
+elasticsearch-user = "elastic" 
+elasticsearch-password = "g1AEszxYkfJTiJZ5tXCZvNu9"
 
-# Elasticsearch bulk request size
-bulk-size = 1000
 
-# Collection configurations
-[[collections]]
-name = "mydb.mycol"
-pipeline = "/path/to/pipeline.js"
-index = "myindex"
-type = "mytype"
 
-[[collections]]
-name = "mydb.mycol2"
-pipeline = "/path/to/pipeline2.js"
-index = "myindex2"
-type = "mytype2"
+direct-read-namespaces = ["nest.amuwikis"]
+change-stream-namespaces = ["nest.amuwikis"]
 
-# Index configurations
-[[indexes]]
-name = "myindex"
-type = "mytype"
-settings = "/path/to/settings.json"
 
-[[indexes]]
-name = "myindex2"
-type = "mytype2"
-settings = "/path/to/settings2.json"
+
+
+
+
+
