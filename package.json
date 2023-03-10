@@ -26,6 +26,7 @@
     "@nestjs/elasticsearch": "^9.0.0",
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-fastify": "^9.3.9",
+    "@nestjs/swagger": "^6.2.1",
     "elasticsearch": "^16.7.3",
     "mongoose": "^6.10.2",
     "reflect-metadata": "^0.1.13",

@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { ElasticsearchService as NestElasticsearchService } from '@nestjs/elasticsearch';
+import { spawn } from 'child_process';
 
 @Injectable()
 export class ElasticsearchService {
-  constructor(
-    private readonly elasticsearchService: NestElasticsearchService,
-  ) {}
+  private readonly monstacheProcess;
 
-  async index(params: { index: string; body: object }) {
-    return await this.elasticsearchService.index(params);
-  }
+  constructor() {
+    const configPath = `${__dirname}/monstache.json`;
+    this.monstacheProcess = spawn('monstache', ['-f', configPath]);
 
-  async update(params: { index: string; id: string; body: object }) {
-    return await this.elasticsearchService.update(params);
-  }
+    this.monstacheProcess.stdout.on('data', (data) => {
+      console.log(data.toString());
+    });
 
-  async delete(params: { index: string; id: string }) {
-    return await this.elasticsearchService.delete(params);
-  }
+    this.monstacheProcess.stderr.on('data', (data) => {
+      console.error(data.toString());
+    });
 
-  async search(params: { index: string; body: object }) {
-    const body = await this.elasticsearchService.search(params);
-    return body.hits.hits;
+    this.monstacheProcess.on('close', (code) => {
+      console.log(`monstache process exited with code ${code}`);
+    });
   }
 }
