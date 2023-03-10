@@ -1,15 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
+// import { ApiProperty } from '@nestjs/swagger';
 
-export class SearchAmuwikiDto {
-  @ApiProperty()
-  namespace: number;
+// export class SearchAmuwikiDto {
+//   @ApiProperty()
+//   namespace: number;
 
-  @ApiProperty()
-  title: string;
+//   @ApiProperty()
+//   title: string;
 
-  @ApiProperty()
-  text: string;
+//   @ApiProperty()
+//   text: string;
 
-  @ApiProperty()
-  contributors: Array<any>;
-}
+//   @ApiProperty()
+//   contributors: Array<any>;
+// }
