@@ -12,4 +12,10 @@ export class AuthController {
     res.cookie('Authentication', `Bearer ${isLogin}`);
     return { message: 'AMUWIKI에 오신걸 환영합니다.' };
   }
+
+  @Post('logout')
+  async logout(@Response({ passthrough: true }) res) {
+    res.cookie('Authentication', '');
+    return { message: 'AMUWIKI에서 로그아웃 되었습니다.' };
+  }
 }
