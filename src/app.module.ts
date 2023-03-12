@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AmuwikiModule } from './amuwiki/amuwiki.module';
+// import { AmuwikiModule } from './amuwiki/amuwiki.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -31,7 +31,7 @@ import { AuthModule } from './auth/auth.module';
       }),
       inject: [ConfigService],
     }),
-    AmuwikiModule,
+    // AmuwikiModule,
     UserModule,
     AuthModule,
   ],
