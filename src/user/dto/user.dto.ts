@@ -9,4 +9,6 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   password: string;
+
+  createdAt: Date;
 }
