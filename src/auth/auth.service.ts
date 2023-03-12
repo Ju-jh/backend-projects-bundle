@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
@@ -14,18 +14,13 @@ export class AuthService {
     private userModel: Model<UserDocument>,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userModel.findOne({ email });
-    console.log(user);
-
-    if (
-      user &&
-      bcrypt.compare(user.password, await bcrypt.hash(password, 10))
-    ) {
-      const { ...result } = user;
-      return result;
+  async validateUser(email: string, password: string): Promise<boolean> {
+    const user = await this.findByEmail(email);
+    if (!user) {
+      return false;
     }
-    return null;
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    return isPasswordValid;
   }
 
   async login(userDto: CreateUserDto): Promise<string> {
@@ -38,30 +33,13 @@ export class AuthService {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async register(userDto: CreateUserDto): Promise<any> {
-    const { email, nickname, password } = userDto;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const createdUser = new this.userModel({
-      email,
-      nickname,
-      password: hashedPassword,
-    });
-    await createdUser.save();
-    const { password: _, ...result } = createdUser.toJSON();
-    return result;
-  }
-
-  decodeToken(token: string): any {
+  async decodeToken(token: string): Promise<any> {
     const decodedToken = this.jwtService.decode(token);
-    return decodedToken['user'];
+    return decodedToken['email'];
   }
 
-  parseToken(cookie: string): any {
-    const token = cookie?.split(' ')[1];
-    if (!token) {
-      return null;
-    }
-    const decodedToken = this.decodeToken(token);
-    return decodedToken;
+  async parseToken(cookie: string): Promise<any> {
+    const splitedToken = cookie.split('%20')[1];
+    return this.decodeToken(splitedToken);
   }
 }
