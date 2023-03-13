@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/user/schemas/user.schema';
 import { CreateProfileDto } from './dto/createProfile.dto';
+import { EditProfileDto } from './dto/editProfile.dto';
 import { Profile } from './schemas/profile.schema';
 
 @Injectable()
@@ -39,5 +40,20 @@ export class ProfileService {
 
   async getEditProfile(options: { email: string }) {
     return await this.profileModel.findOne({ where: { email: options.email } });
+  }
+
+  async editProfile(email, updateData: EditProfileDto) {
+    const isfrofile = await this.getEditProfile(email);
+    const data = {
+      email: isfrofile.email,
+      nickname: isfrofile.nickname,
+      password: isfrofile.password,
+      phoneNumber: isfrofile.phoneNumber,
+    };
+    data.email = updateData.email;
+    data.nickname = updateData.nickname;
+    data.password = updateData.password;
+    data.phoneNumber = updateData.phoneNumber;
+    return await this.profileModel.update({ email: email }, data);
   }
 }
