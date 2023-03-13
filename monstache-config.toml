@@ -1,11 +1,11 @@
 # MongoDB connection string
-mongo-url = "mongodb+srv://sparta:wy2K1r5YENz7v2Jh@amuwiki.ldisv.mongodb.net/nest?retryWrites=true&w=majority"
+mongo-url = "mongodb+srv://Bechallengers:FsCkbE2PkhNM8rw0@amuwiki.nhurd.mongodb.net/?retryWrites=true&w=majority"
 
 
 # Elasticsearch connection information
-elasticsearch-urls = ["https://amuwiki.es.asia-northeast3.gcp.elastic-cloud.com"]
+elasticsearch-urls = ["https://amuwiki.es.ap-northeast-2.aws.elastic-cloud.com"]
 elasticsearch-user = "elastic" 
-elasticsearch-password = "g1AEszxYkfJTiJZ5tXCZvNu9"
+elasticsearch-password = "dZFevGqIi9NsjeniWcL25kNW"
 
 
 
