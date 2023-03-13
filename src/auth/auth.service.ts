@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   async login(userDto: CreateUserDto): Promise<string> {
-    const payload = { email: userDto.email };
+    const payload = { user: { email: userDto.email } };
     const access_token = this.jwtService.sign(payload);
     return access_token;
   }
@@ -35,7 +35,7 @@ export class AuthService {
 
   async decodeToken(token: string): Promise<any> {
     const decodedToken = this.jwtService.decode(token);
-    return decodedToken['email'];
+    return decodedToken['user'];
   }
 
   async parseToken(cookie: string): Promise<any> {
