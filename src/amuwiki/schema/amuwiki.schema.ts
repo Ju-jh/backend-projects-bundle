@@ -15,5 +15,4 @@ export class Amuwiki extends Document {
   @Prop()
   contributors: Array<any>;
 }
-
 export const AmuwikiSchema = SchemaFactory.createForClass(Amuwiki);
