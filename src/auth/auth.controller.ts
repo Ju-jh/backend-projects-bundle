@@ -19,7 +19,11 @@ export class AuthController {
       return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
     }
     const isLogin = await this.authService.login(isUser);
-    res.cookie('Authentication', `Bearer ${isLogin}`);
+    res.cookie('Authentication', `Bearer ${isLogin}`, {
+      domain: 'localhost',
+      path: '/',
+      httpOnly: true,
+    });
     return { message: 'AMUWIKI에 오신걸 환영합니다.' };
   }
 
