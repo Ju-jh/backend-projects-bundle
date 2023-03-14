@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
 import { User } from './schemas/user.schema';
 import * as nodemailer from 'nodemailer';
 import { VerifyEmailCodeDto } from './dto/verifyEmailCode.dto';
 import { VerifiedEmail } from './schemas/verifiedemail.schema';
 import * as bcrypt from 'bcrypt';
+import { VerifyEmailDto } from './dto/verifyEmail.dto';
 
 @Injectable()
 export class UserService {
@@ -104,5 +105,80 @@ export class UserService {
     });
 
     return code;
+  }
+
+  async sendingCodeToEmail(
+    verifyEmailDto: VerifyEmailDto,
+  ): Promise<{ message: string }> {
+    const isEmailValid = this.validateEmail(verifyEmailDto.email);
+    if (!isEmailValid) {
+      return { message: '올바른 이메일 형식이 아닙니다.' };
+    }
+    const isEmailExist = await this.isEmailExistinVerified(
+      verifyEmailDto.email,
+    );
+    if (isEmailExist) {
+      return { message: '이미 존재하는 이메일입니다.' };
+    }
+    const emailVerificationCode = this.sendEmailVerificationCode(
+      verifyEmailDto.email,
+    );
+    emailVerificationCode;
+    return {
+      message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
+    };
+  }
+
+  async verifyingCode(
+    verifyEmailCodeDto: VerifyEmailCodeDto,
+  ): Promise<{ message: string }> {
+    const isCodeValid = await this.verifyEmail(
+      verifyEmailCodeDto.email,
+      verifyEmailCodeDto.code,
+    );
+    if (!isCodeValid) {
+      return { message: '이메일 인증 코드가 유효하지 않습니다.' };
+    }
+    this.saveVerifiedEmail(verifyEmailCodeDto);
+    return { message: '이메일 인증이 완료되었습니다.' };
+  }
+
+  async creatingUser(
+    createUserDto: CreateUserDto,
+  ): Promise<{ message: string }> {
+    const isEmailValid = this.validateEmail(createUserDto.email);
+    if (!isEmailValid) {
+      return { message: '올바른 이메일 형식이 아닙니다.' };
+    }
+    const isEmailExist = await this.isEmailExist(createUserDto.email);
+    if (isEmailExist) {
+      return { message: '이미 존재하는 이메일입니다.' };
+    }
+    const isEmailVerified = await this.isEmailExistinVerified(
+      createUserDto.email,
+    );
+    if (isEmailVerified === false) {
+      return { message: '인증되지 않은 이메일입니다.' };
+    }
+    const isNicknameExist = await this.isNicknameExist(createUserDto.nickname);
+    if (isNicknameExist) {
+      return { message: '이미 존재하는 닉네임입니다.' };
+    }
+    const isNicknameValid = this.validateNickname(createUserDto.nickname);
+    if (!isNicknameValid) {
+      return {
+        message:
+          '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
+      };
+    }
+    const isPasswordValid = this.validatePassword(createUserDto.password);
+    if (!isPasswordValid) {
+      return {
+        message:
+          '비밀번호는 8자 이상 20자 이하, 영문자,숫자,특수문자를 포함해야합니다.',
+      };
+    }
+    this.createUser(createUserDto);
+    return { message: 'AMUWIKI 회원가입이 완료되었습니다.' };
   }
 }
