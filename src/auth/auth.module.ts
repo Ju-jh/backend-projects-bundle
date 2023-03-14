@@ -7,10 +7,18 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import {
+  VerifiedEmail,
+  VerifiedEmailSchema,
+} from 'src/user/schemas/verifiedemail.schema';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: VerifiedEmail.name, schema: VerifiedEmailSchema },
+    ]),
     UserModule,
     PassportModule,
     JwtModule.registerAsync({

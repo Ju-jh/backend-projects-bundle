@@ -1,5 +1,6 @@
-import { Body, Controller, Post, Response } from '@nestjs/common';
+import { Body, Controller, Headers, Post, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
+
 
 @Controller('auth')
 export class AuthController {
@@ -29,7 +30,10 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Response({ passthrough: true }) res) {
-    res.cookie('Authentication', '');
+    res.header('Set-Cookie', [
+      'Authentication=; Domain=localhost; Path=/; HttpOnly',
+    ]);
     return { message: 'AMUWIKI에서 로그아웃 되었습니다.' };
   }
+
 }
