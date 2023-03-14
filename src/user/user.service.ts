@@ -3,10 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/user.dto';
 import { User } from './schemas/user.schema';
-import * as bcrypt from 'bcrypt';
 import * as nodemailer from 'nodemailer';
 import { VerifyEmailCodeDto } from './dto/verifyEmailCode.dto';
 import { VerifiedEmail } from './schemas/verifiedemail.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {

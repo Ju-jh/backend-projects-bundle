@@ -11,7 +11,6 @@ import {
   VerifiedEmail,
   VerifiedEmailSchema,
 } from 'src/user/schemas/verifiedemail.schema';
-import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 @Module({
   imports: [
