@@ -4,12 +4,13 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User, UserDocument } from 'src/user/schemas/user.schema';
-import { CreateUserDto } from 'src/user/dto/user.dto';
-import { DeleteUserDto } from './dto/deleteuser.dto';
+import { CreateUserDto } from 'src/user/dto/createUser.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
 import {
   VerifiedEmail,
   VerifiedEmailDocument,
 } from 'src/user/schemas/VerifiedEmail.schema';
+import { DeleteUserDto } from './dto/deleteUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +31,12 @@ export class AuthService {
     return isPasswordValid;
   }
 
+  validateEmail(email: string): boolean {
+    const emailRegex =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailRegex.test(email);
+  }
+
   async login(userDto: CreateUserDto): Promise<string> {
     const payload = { user: { email: userDto.email } };
     const access_token = this.jwtService.sign(payload);
@@ -48,6 +55,41 @@ export class AuthService {
   async parseToken(cookie: string): Promise<any> {
     const splitedToken = cookie.split('%20')[1];
     return this.decodeToken(splitedToken);
+  }
+
+  async validateLoginUser(
+    loginUserDto: LoginUserDto,
+  ): Promise<{ message: string }> {
+    const isUser = await this.findByEmail(loginUserDto.email);
+    if (!isUser) {
+      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
+    }
+    const isPassword = await this.validateUser(
+      loginUserDto.email,
+      loginUserDto.password,
+    );
+    if (isPassword === false) {
+      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
+    }
+  }
+
+  async loginUser(loginUserDto: LoginUserDto): Promise<{ message: string }> {
+    const isEmailValid = this.validateEmail(loginUserDto.email);
+    if (!isEmailValid) {
+      return { message: '올바른 이메일 형식이 아닙니다.' };
+    }
+    const isUser = await this.findByEmail(loginUserDto.email);
+    if (!isUser) {
+      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
+    }
+    const isPassword = await this.validateUser(
+      loginUserDto.email,
+      loginUserDto.password,
+    );
+    if (isPassword === false) {
+      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
+    }
+    return { message: 'AMUWIKI에 오신걸 환영합니다.' };
   }
 
   async deleteUser(

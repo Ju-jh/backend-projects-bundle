@@ -1,32 +1,33 @@
 import { Body, Controller, Headers, Post, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { DeleteUserDto } from './dto/deleteuser.dto';
+import { DeleteUserDto } from './dto/deleteUser.dto';
 import { FastifyReply } from 'fastify';
+import { LoginUserDto } from './dto/loginUser.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body, @Response({ passthrough: true }) res) {
-    const isUser = await this.authService.findByEmail(body.email);
-    if (!isUser) {
-      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
+  async login(
+    @Body() loginUserDto: LoginUserDto,
+    @Response({ passthrough: true }) res,
+    @Response() response: FastifyReply,
+  ): Promise<{ message: string }> {
+    const result = await this.authService.loginUser(loginUserDto);
+    if (result.message.includes('환영')) {
+      const isUser = await this.authService.findByEmail(loginUserDto.email);
+      const isLogin = await this.authService.login(isUser);
+      res.cookie('Authentication', `Bearer ${isLogin}`, {
+        domain: 'localhost',
+        path: '/',
+        httpOnly: true,
+      });
+      response.status(200).send(result);
+    } else {
+      response.status(401).send(result);
     }
-    const isPassword = await this.authService.validateUser(
-      body.email,
-      body.password,
-    );
-    if (isPassword === false) {
-      return { message: '이메일 혹은 패스워드를 찾을 수 없습니다.' };
-    }
-    const isLogin = await this.authService.login(isUser);
-    res.cookie('Authentication', `Bearer ${isLogin}`, {
-      domain: 'localhost',
-      path: '/',
-      httpOnly: true,
-    });
-    return { message: 'AMUWIKI에 오신걸 환영합니다.' };
+    return result;
   }
 
   @Post('logout')
