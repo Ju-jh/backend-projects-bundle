@@ -38,7 +38,7 @@ export class AuthController {
     return { message: 'AMUWIKI에서 로그아웃 되었습니다.' };
   }
 
-  @Post('withdrawl')
+  @Post('withdrawal')
   async withdrawl(
     @Headers('cookie') cookie: string,
     @Body() deleteUserDto: DeleteUserDto,
