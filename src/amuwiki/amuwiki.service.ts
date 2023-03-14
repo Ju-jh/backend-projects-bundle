@@ -17,10 +17,14 @@ export class AmuwikiService {
       body: {
         query: {
           match: {
-            title: query,
+            title: {
+              query: query,
+              operator: 'AND',
+            },
           },
         },
       },
+      request_cache: true,
     });
 
     const sources = result.hits.hits.map(({ _source }) => _source);
