@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Response } from '@nestjs/common';
+import { Controller, Post, Body, Res } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { VerifyEmailDto } from './dto/verifyEmail.dto';
 import { VerifyEmailCodeDto } from './dto/verifyEmailCode.dto';
@@ -10,42 +10,29 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('email')
-  async verifyEmail(
+  async sendCode(
     @Body() verifyEmailDto: VerifyEmailDto,
-    @Response() response: FastifyReply,
-  ): Promise<{ message: string }> {
-    const result = await this.userService.sendingCodeToEmail(verifyEmailDto);
-    if (result.message.includes('발송')) {
-      response.status(201).send(result);
-    } else {
-      response.status(400).send(result);
-    }
-    return result;
+    @Res() res: FastifyReply,
+  ) {
+    const result = await this.userService.handleEmail(verifyEmailDto);
+    res.status(result.statusCode).send(result);
   }
 
   @Post('verifying')
-  async verifyEmailCode(
+  async verifyCode(
     @Body() verifyEmailCodeDto: VerifyEmailCodeDto,
-    @Response() response: FastifyReply,
+    @Res() res: FastifyReply,
   ) {
-    const result = await this.userService.verifyingCode(verifyEmailCodeDto);
-    if (result.message.includes('완료')) {
-      response.status(200).send(result);
-    } else {
-      response.status(400).send(result);
-    }
+    const result = await this.userService.handleVerifying(verifyEmailCodeDto);
+    res.status(result.statusCode).send(result);
   }
 
   @Post('verified')
   async createUser(
     @Body() createUserDto: CreateUserDto,
-    @Response() response: FastifyReply,
+    @Res() res: FastifyReply,
   ) {
-    const result = await this.userService.creatingUser(createUserDto);
-    if (result.message.includes('완료')) {
-      response.status(201).send(result);
-    } else {
-      response.status(400).send(result);
-    }
+    const result = await this.userService.handleVerified(createUserDto);
+    res.status(result.statusCode).send(result);
   }
 }

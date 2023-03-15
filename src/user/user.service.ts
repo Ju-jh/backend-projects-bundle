@@ -33,19 +33,19 @@ export class UserService {
     return await createdUser.save();
   }
 
-  validateEmail(email: string): boolean {
+  isValidateEmail(email: string): boolean {
     const emailRegex =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
   }
 
-  validatePassword(password: string): boolean {
+  isValidatePassword(password: string): boolean {
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
     return passwordRegex.test(password);
   }
 
-  validateNickname(nickname: string): boolean {
+  isValidateNickname(nickname: string): boolean {
     const nicknameregex = /^[^`~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/\?]{5,10}$/;
     return nicknameregex.test(nickname);
   }
@@ -78,7 +78,9 @@ export class UserService {
   }
 
   sendEmailVerificationCode(email: string): string {
-    const code = Math.random().toString(36).substring(2, 8);
+    const code = Math.random()
+      .toString(+process.env.STRINGCODE)
+      .substring(+process.env.SUBSTRINGCODE1, +process.env.SUBSTRINGCODE2);
     this.emailVerificationCodes.set(email, code);
 
     const transporter = nodemailer.createTransport({
@@ -93,32 +95,29 @@ export class UserService {
       from: 'AmuWiki',
       to: email,
       subject: 'AMUWIKI 이메일 인증 코드',
-      text: `안녕하세요! AMUWIKI입니다.\n\n이메일 인증 코드: ${code}\n\n감사합니다.`,
+      text: `안녕하세요! AMUWIKI입니다.\n\n이메일 인증 코드: ${code}\n\n이용해 주셔서 감사합니다.`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error) => {
       if (error) {
         console.log(error);
-      } else {
-        console.log(`Email sent: ${info.response}`);
       }
     });
-
     return code;
   }
 
-  async sendingCodeToEmail(
+  async handleEmail(
     verifyEmailDto: VerifyEmailDto,
-  ): Promise<{ message: string }> {
-    const isEmailValid = this.validateEmail(verifyEmailDto.email);
+  ): Promise<{ message: string; statusCode: number }> {
+    const isEmailValid = this.isValidateEmail(verifyEmailDto.email);
     if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.' };
+      return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
     }
     const isEmailExist = await this.isEmailExistinVerified(
       verifyEmailDto.email,
     );
     if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.' };
+      return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
     }
     const emailVerificationCode = this.sendEmailVerificationCode(
       verifyEmailDto.email,
@@ -126,59 +125,65 @@ export class UserService {
     emailVerificationCode;
     return {
       message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
+      statusCode: 201,
     };
   }
 
-  async verifyingCode(
+  async handleVerifying(
     verifyEmailCodeDto: VerifyEmailCodeDto,
-  ): Promise<{ message: string }> {
+  ): Promise<{ message: string; statusCode: number }> {
     const isCodeValid = await this.verifyEmail(
       verifyEmailCodeDto.email,
       verifyEmailCodeDto.code,
     );
     if (!isCodeValid) {
-      return { message: '이메일 인증 코드가 유효하지 않습니다.' };
+      return {
+        message: '이메일 인증 코드가 유효하지 않습니다.',
+        statusCode: 400,
+      };
     }
     this.saveVerifiedEmail(verifyEmailCodeDto);
-    return { message: '이메일 인증이 완료되었습니다.' };
+    return { message: '이메일 인증이 완료되었습니다.', statusCode: 200 };
   }
 
-  async creatingUser(
+  async handleVerified(
     createUserDto: CreateUserDto,
-  ): Promise<{ message: string }> {
-    const isEmailValid = this.validateEmail(createUserDto.email);
+  ): Promise<{ message: string; statusCode: number }> {
+    const isEmailValid = this.isValidateEmail(createUserDto.email);
     if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.' };
+      return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
     }
     const isEmailExist = await this.isEmailExist(createUserDto.email);
     if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.' };
+      return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
     }
     const isEmailVerified = await this.isEmailExistinVerified(
       createUserDto.email,
     );
     if (isEmailVerified === false) {
-      return { message: '인증되지 않은 이메일입니다.' };
+      return { message: '인증되지 않은 이메일입니다.', statusCode: 400 };
     }
     const isNicknameExist = await this.isNicknameExist(createUserDto.nickname);
     if (isNicknameExist) {
-      return { message: '이미 존재하는 닉네임입니다.' };
+      return { message: '이미 존재하는 닉네임입니다.', statusCode: 400 };
     }
-    const isNicknameValid = this.validateNickname(createUserDto.nickname);
+    const isNicknameValid = this.isValidateNickname(createUserDto.nickname);
     if (!isNicknameValid) {
       return {
         message:
           '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
+        statusCode: 400,
       };
     }
-    const isPasswordValid = this.validatePassword(createUserDto.password);
+    const isPasswordValid = this.isValidatePassword(createUserDto.password);
     if (!isPasswordValid) {
       return {
         message:
           '비밀번호는 8자 이상 20자 이하, 영문자,숫자,특수문자를 포함해야합니다.',
+        statusCode: 400,
       };
     }
     this.createUser(createUserDto);
-    return { message: 'AMUWIKI 회원가입이 완료되었습니다.' };
+    return { message: 'AMUWIKI 회원가입이 완료되었습니다.', statusCode: 201 };
   }
 }
