@@ -11,6 +11,9 @@ import {
   VerifiedEmail,
   VerifiedEmailSchema,
 } from 'src/user/schemas/verifiedemail.schema';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { join } from 'path';
+import fastifyStatic from 'fastify-static';
 
 @Module({
   imports: [
@@ -34,4 +37,13 @@ import {
   controllers: [AuthController],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule {
+  static async setup(app: NestFastifyApplication) {
+    app.register(fastifyStatic, {
+      root: join(__dirname, '..', 'public'),
+      prefix: '/public/',
+    });
+
+    await app.listen(process.env.PORT || 3000, '0.0.0.0');
+  }
+}
