@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Amuwiki } from 'src/amuwiki/schema/amuwiki.schema';
 import { User } from 'src/user/schemas/user.schema';
 import { CreatePostDto } from './dto/createPost.dto';
+import { EditPostDto } from './dto/editPost.dto';
 
 @Injectable()
 export class PostService {
@@ -41,6 +42,19 @@ export class PostService {
       console.log(postSave);
 
       return await postSave.save();
+    } else {
+      return { message: '이메일이 존재하지 않습니다.' };
+    }
+  }
+
+  async editPost(email, updateData: EditPostDto) {
+    const findEmail = await this.getEmail(email);
+    if (findEmail) {
+      const temp = {
+        title: updateData.title,
+        text: updateData.text,
+      };
+      return await this.amuwikiModel.updateOne(temp);
     } else {
       return { message: '이메일이 존재하지 않습니다.' };
     }
