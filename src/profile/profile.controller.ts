@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
-import { Put } from '@nestjs/common/decorators';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Post,
+  Res,
+  Req,
+  Put,
+} from '@nestjs/common';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateProfileDto } from './dto/createProfile.dto';
 import { EditProfileDto } from './dto/editProfile.dto';
 import { ProfileService } from './profile.service';
+
 @Controller('profile')
 export class ProfileController {
   constructor(
@@ -15,33 +25,43 @@ export class ProfileController {
   async createProfile(
     @Headers('cookie') cookie,
     @Body() profiledata: CreateProfileDto,
+    @Res() res: FastifyReply,
   ) {
-    const info = await this.authService.parseToken(cookie);
-    const email = Object.values(info)[0];
-    this.profileService.createProfile(String(email), profiledata);
-    return { message: '프로필 정보가 등록되었습니다.' };
+    const email = await this.profileService.detoken(cookie);
+    res.send(
+      await this.profileService.createProfile(String(email), profiledata),
+    );
   }
 
   @Get()
-  async getBasicProfile(@Headers('cookie') cookie) {
-    const info = await this.authService.parseToken(cookie);
-    return await this.profileService.getBasicProfile(info);
+  async getBasicProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
+    const email = await this.profileService.detoken(cookie);
+    res.send(await this.profileService.getBasicProfile(String(email)));
   }
 
   @Get('/detail')
-  async getDetailProfile(@Headers('cookie') cookie) {
-    const info = await this.authService.parseToken(cookie);
-    return await this.profileService.getEditProfile(info);
+  async getDetailProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
+    const email = await this.profileService.detoken(cookie);
+    res.send(await this.profileService.getEditProfile(String(email)));
   }
 
   @Put('/edit')
   async editProfile(
     @Headers('cookie') cookie,
     @Body() updateData: EditProfileDto,
+    @Res() res: FastifyReply,
   ) {
-    const info = await this.authService.parseToken(cookie);
-    const email = Object.values(info)[0];
-    await this.profileService.editProfile(email, updateData);
-    return { message: '프로필 정보가 변경되었습니다.' };
+    const email = await this.profileService.detoken(cookie);
+    res.send(await this.profileService.editProfile(String(email), updateData));
+  }
+
+  @Post('/upload')
+  async uploadFile(
+    @Headers('cookie') cookie,
+    @Req() req: FastifyRequest,
+    @Res() res: FastifyReply<any>,
+  ): Promise<any> {
+    const email = await this.profileService.detoken(cookie);
+    return await this.profileService.uploadFile(String(email), req, res);
   }
 }

@@ -6,6 +6,13 @@ import { ProfileService } from './profile.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/schemas/user.schema';
 import { ProfileSchema } from './schemas/profile.schema';
+import { AmuwikiModule } from '../amuwiki/amuwiki.module';
+import { UserModule } from 'src/user/user.module';
+import { UserService } from 'src/user/user.service';
+import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
+import { join } from 'path';
+import fastifyStatic from 'fastify-static';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 @Module({
   imports: [
@@ -15,11 +22,26 @@ import { ProfileSchema } from './schemas/profile.schema';
         name: 'Profile',
         schema: ProfileSchema,
       },
+      {
+        name: 'VerifiedEmail',
+        schema: VerifiedEmailSchema,
+      },
     ]),
+    UserModule,
     AuthModule,
+    AmuwikiModule,
   ],
   controllers: [ProfileController],
-  providers: [MongooseModule, ProfileService, JwtService],
+  providers: [MongooseModule, ProfileService, JwtService, UserService],
   exports: [ProfileService],
 })
-export class ProfileModule {}
+export class ProfileModule {
+  static async setup(app: NestFastifyApplication) {
+    app.register(fastifyStatic, {
+      root: join(__dirname, '..', 'public'),
+      prefix: '/public/',
+    });
+
+    await app.listen(process.env.PORT || 3001, '0.0.0.0');
+  }
+}

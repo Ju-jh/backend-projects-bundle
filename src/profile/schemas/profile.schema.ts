@@ -14,8 +14,11 @@ export class Profile {
   @Prop({ required: true, unique: true })
   phoneNumber: number;
 
+  @Prop()
+  photo: string;
+
   @Prop({ default: Date.now })
-  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);
