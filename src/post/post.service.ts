@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Amuwiki } from 'src/amuwiki/schema/amuwiki.schema';
+import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/user/schemas/user.schema';
 import { CreatePostDto } from './dto/createPost.dto';
 import { EditPostDto } from './dto/editPost.dto';
@@ -13,22 +14,30 @@ export class PostService {
     private amuwikiModel: Model<Amuwiki>,
     @InjectModel('User')
     private userModel: Model<User>,
+    private authService: AuthService,
   ) {}
 
-  async getEmail(isemail: string) {
-    return await this.userModel.findOne({ where: { email: isemail } });
+  async getEmail(email: string) {
+    return await this.userModel.findOne({ email: email });
   }
 
-  async getNickname(email) {
-    const isNickname = await this.userModel.findOne({
-      where: { email: email },
-    });
+  async getNickname(email: string) {
+    const isNickname = await this.userModel.findOne({ email: email });
     return await isNickname.nickname;
+  }
+
+  async getContributors(nickname: string) {
+    return await this.amuwikiModel.findOne({ contributors: nickname });
+  }
+
+  async detoken(cookie: string): Promise<string> {
+    const info = await this.authService.parseToken(cookie);
+    const email = Object.values(info)[0] as string;
+    return email;
   }
 
   async createPost(postData: CreatePostDto, email): Promise<any> {
     const findEmail = await this.getEmail(email);
-    console.log('!!!!!!!!!!!!!!!!!', findEmail);
     const nickname = await this.getNickname(email);
 
     if (findEmail) {
@@ -39,20 +48,19 @@ export class PostService {
         contributors: nickname,
       };
       const postSave = new this.amuwikiModel(temp);
-      console.log(postSave);
-
       return await postSave.save();
     } else {
       return { message: '이메일이 존재하지 않습니다.' };
     }
   }
 
-  async editPost(email, updateData: EditPostDto) {
+  async editPost(email, editPostDto: EditPostDto) {
     const findEmail = await this.getEmail(email);
-    if (findEmail) {
+
+    if (findEmail.email === email) {
       const temp = {
-        title: updateData.title,
-        text: updateData.text,
+        title: editPostDto.title,
+        text: editPostDto.text,
       };
       return await this.amuwikiModel.updateOne(temp);
     } else {
@@ -62,10 +70,12 @@ export class PostService {
 
   async deletePost(email) {
     const findEmail = await this.getEmail(email);
+
     if (findEmail) {
-      const findNickname = await this.getNickname;
-      await this.amuwikiModel.findOneAndDelete({
-        where: { contributors: findNickname },
+      const findNickname = await this.getNickname(email);
+      const findContributors = await this.getContributors(findNickname);
+      await this.amuwikiModel.deleteOne({
+        findContributors,
       });
     } else {
       return { message: '이메일이 존재하지 않습니다.' };
