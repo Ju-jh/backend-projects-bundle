@@ -35,12 +35,24 @@ export class PostService {
         namespace: 0,
         title: postData.title,
         text: postData.text,
-        contributors: email,
+        contributors: nickname,
       };
       const postSave = new this.amuwikiModel(temp);
       console.log(postSave);
 
       return await postSave.save();
+    } else {
+      return { message: '이메일이 존재하지 않습니다.' };
+    }
+  }
+
+  async deletePost(email) {
+    const findEmail = await this.getEmail(email);
+    if (findEmail) {
+      const findNickname = await this.getNickname;
+      await this.amuwikiModel.findOneAndDelete({
+        where: { contributors: findNickname },
+      });
     } else {
       return { message: '이메일이 존재하지 않습니다.' };
     }
