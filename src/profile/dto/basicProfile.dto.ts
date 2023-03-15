@@ -10,5 +10,7 @@ export class BasicProfileDto {
   @IsNotEmpty()
   password: string;
 
-  createdAt: Date;
+  phot: string;
+
+  updateAt: Date;
 }

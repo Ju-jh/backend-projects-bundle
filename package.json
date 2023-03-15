@@ -37,6 +37,7 @@
     "class-validator": "^0.14.0",
     "elasticsearch": "^16.7.3",
     "fastify-cookie": "^5.7.0",
+    "fastify-multipart": "^5.4.0",
     "fastify-static": "^4.7.0",
     "mongoose": "^6.10.2",
     "nodemailer": "^6.9.1",
