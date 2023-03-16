@@ -1,24 +1,15 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Headers,
-  Post,
-  Res,
-  Response,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Headers, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { DeleteUserDto } from './dto/deleteUser.dto';
 import { FastifyReply } from 'fastify';
 import { LoginUserDto } from './dto/loginUser.dto';
-
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto, @Res() res: FastifyReply) {
-    const result = await this.authService.handleLogin(loginUserDto, res);
+  async login(@Body() dto: LoginUserDto, @Res() res: FastifyReply) {
+    const result = await this.authService.handleLogin(dto, res);
     res.status(result.statusCode).send(result);
   }
 
@@ -34,14 +25,10 @@ export class AuthController {
   @Delete('withdrawal')
   async withdrawl(
     @Headers('cookie') cookie: string,
-    @Body() deleteUserDto: DeleteUserDto,
+    @Body() dto: DeleteUserDto,
     @Res() res: FastifyReply,
   ) {
-    const result = await this.authService.handleWithdrawal(
-      cookie,
-      deleteUserDto,
-      res,
-    );
+    const result = await this.authService.handleWithdrawal(cookie, dto, res);
     res.status(result.statusCode).send(result);
   }
 }

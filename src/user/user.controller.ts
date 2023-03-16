@@ -10,29 +10,20 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('email')
-  async sendCode(
-    @Body() verifyEmailDto: VerifyEmailDto,
-    @Res() res: FastifyReply,
-  ) {
-    const result = await this.userService.handleEmail(verifyEmailDto);
+  async sendCode(@Body() dto: VerifyEmailDto, @Res() res: FastifyReply) {
+    const result = await this.userService.handleEmail(dto);
     res.status(result.statusCode).send(result);
   }
 
   @Post('verifying')
-  async verifyCode(
-    @Body() verifyEmailCodeDto: VerifyEmailCodeDto,
-    @Res() res: FastifyReply,
-  ) {
-    const result = await this.userService.handleVerifying(verifyEmailCodeDto);
+  async verifyCode(@Body() dto: VerifyEmailCodeDto, @Res() res: FastifyReply) {
+    const result = await this.userService.handleVerifying(dto);
     res.status(result.statusCode).send(result);
   }
 
   @Post('verified')
-  async createUser(
-    @Body() createUserDto: CreateUserDto,
-    @Res() res: FastifyReply,
-  ) {
-    const result = await this.userService.handleVerified(createUserDto);
+  async createUser(@Body() dto: CreateUserDto, @Res() res: FastifyReply) {
+    const result = await this.userService.handleVerified(dto);
     res.status(result.statusCode).send(result);
   }
 }

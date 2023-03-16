@@ -3,65 +3,41 @@ import {
   Controller,
   Get,
   Headers,
-  Post,
   Res,
-  Req,
   Put,
+  Post,
+  Req,
+  UseInterceptors,
 } from '@nestjs/common';
-import { FastifyRequest, FastifyReply } from 'fastify';
-import { AuthService } from 'src/auth/auth.service';
-import { CreateProfileDto } from './dto/createProfile.dto';
-import { EditProfileDto } from './dto/editProfile.dto';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { EditNicknameDto } from './dto/editNickname.dto';
+import { EditPasswordDto } from './dto/editPassword.dto';
 import { ProfileService } from './profile.service';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(
-    private profileService: ProfileService,
-    private authService: AuthService,
-  ) {}
-
-  @Post()
-  async createProfile(
-    @Headers('cookie') cookie,
-    @Body() profiledata: CreateProfileDto,
-    @Res() res: FastifyReply,
-  ) {
-    const email = await this.profileService.detoken(cookie);
-    res.send(
-      await this.profileService.createProfile(String(email), profiledata),
-    );
-  }
+  constructor(private readonly profileService: ProfileService) {}
 
   @Get()
-  async getBasicProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
-    const email = await this.profileService.detoken(cookie);
-    res.send(await this.profileService.getBasicProfile(String(email)));
-  }
-
-  @Get('/detail')
   async getDetailProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
-    const email = await this.profileService.detoken(cookie);
-    res.send(await this.profileService.getEditProfile(String(email)));
+    res.send(await this.profileService.handleGetProfile(cookie));
   }
 
-  @Put('/edit')
-  async editProfile(
+  @Put('nickname')
+  async editNickname(
     @Headers('cookie') cookie,
-    @Body() updateData: EditProfileDto,
+    @Body() dto: EditNicknameDto,
     @Res() res: FastifyReply,
   ) {
-    const email = await this.profileService.detoken(cookie);
-    res.send(await this.profileService.editProfile(String(email), updateData));
+    res.send(await this.profileService.handleEditNickname(cookie, dto));
   }
 
-  @Post('/upload')
-  async uploadFile(
+  @Put('password')
+  async editPassword(
     @Headers('cookie') cookie,
-    @Req() req: FastifyRequest,
-    @Res() res: FastifyReply<any>,
-  ): Promise<any> {
-    const email = await this.profileService.detoken(cookie);
-    return await this.profileService.uploadFile(String(email), req, res);
+    @Body() dto: EditPasswordDto,
+    @Res() res: FastifyReply,
+  ) {
+    res.send(await this.profileService.handleEditPassword(cookie, dto));
   }
 }

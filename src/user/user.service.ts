@@ -19,17 +19,15 @@ export class UserService {
     private readonly verifiedEmail: Model<VerifiedEmail>,
   ) {}
 
-  async saveVerifiedEmail(
-    verifyEmailCodeDto: VerifyEmailCodeDto,
-  ): Promise<VerifiedEmail> {
-    const saveEmail = new this.verifiedEmail(verifyEmailCodeDto);
+  async saveVerifiedEmail(dto: VerifyEmailCodeDto): Promise<VerifiedEmail> {
+    const saveEmail = new this.verifiedEmail(dto);
     return await saveEmail.save();
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
-    createUserDto.createdAt = new Date();
-    const createdUser = new this.userModel(createUserDto);
+  async createUser(dto: CreateUserDto): Promise<User> {
+    dto.password = await bcrypt.hash(dto.password, 10);
+    dto.createdAt = new Date();
+    const createdUser = new this.userModel(dto);
     return await createdUser.save();
   }
 
@@ -107,21 +105,17 @@ export class UserService {
   }
 
   async handleEmail(
-    verifyEmailDto: VerifyEmailDto,
+    dto: VerifyEmailDto,
   ): Promise<{ message: string; statusCode: number }> {
-    const isEmailValid = this.isValidateEmail(verifyEmailDto.email);
+    const isEmailValid = this.isValidateEmail(dto.email);
     if (!isEmailValid) {
       return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
     }
-    const isEmailExist = await this.isEmailExistinVerified(
-      verifyEmailDto.email,
-    );
+    const isEmailExist = await this.isEmailExistinVerified(dto.email);
     if (isEmailExist) {
       return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
     }
-    const emailVerificationCode = this.sendEmailVerificationCode(
-      verifyEmailDto.email,
-    );
+    const emailVerificationCode = this.sendEmailVerificationCode(dto.email);
     emailVerificationCode;
     return {
       message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
@@ -130,44 +124,39 @@ export class UserService {
   }
 
   async handleVerifying(
-    verifyEmailCodeDto: VerifyEmailCodeDto,
+    dto: VerifyEmailCodeDto,
   ): Promise<{ message: string; statusCode: number }> {
-    const isCodeValid = await this.verifyEmail(
-      verifyEmailCodeDto.email,
-      verifyEmailCodeDto.code,
-    );
+    const isCodeValid = await this.verifyEmail(dto.email, dto.code);
     if (!isCodeValid) {
       return {
         message: '이메일 인증 코드가 유효하지 않습니다.',
         statusCode: 400,
       };
     }
-    this.saveVerifiedEmail(verifyEmailCodeDto);
+    this.saveVerifiedEmail(dto);
     return { message: '이메일 인증이 완료되었습니다.', statusCode: 200 };
   }
 
   async handleVerified(
-    createUserDto: CreateUserDto,
+    dto: CreateUserDto,
   ): Promise<{ message: string; statusCode: number }> {
-    const isEmailValid = this.isValidateEmail(createUserDto.email);
+    const isEmailValid = this.isValidateEmail(dto.email);
     if (!isEmailValid) {
       return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
     }
-    const isEmailExist = await this.isEmailExist(createUserDto.email);
+    const isEmailExist = await this.isEmailExist(dto.email);
     if (isEmailExist) {
       return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
     }
-    const isEmailVerified = await this.isEmailExistinVerified(
-      createUserDto.email,
-    );
+    const isEmailVerified = await this.isEmailExistinVerified(dto.email);
     if (isEmailVerified === false) {
       return { message: '인증되지 않은 이메일입니다.', statusCode: 400 };
     }
-    const isNicknameExist = await this.isNicknameExist(createUserDto.nickname);
+    const isNicknameExist = await this.isNicknameExist(dto.nickname);
     if (isNicknameExist) {
       return { message: '이미 존재하는 닉네임입니다.', statusCode: 400 };
     }
-    const isNicknameValid = this.isValidateNickname(createUserDto.nickname);
+    const isNicknameValid = this.isValidateNickname(dto.nickname);
     if (!isNicknameValid) {
       return {
         message:
@@ -175,7 +164,7 @@ export class UserService {
         statusCode: 400,
       };
     }
-    const isPasswordValid = this.isValidatePassword(createUserDto.password);
+    const isPasswordValid = this.isValidatePassword(dto.password);
     if (!isPasswordValid) {
       return {
         message:
@@ -183,7 +172,7 @@ export class UserService {
         statusCode: 400,
       };
     }
-    this.createUser(createUserDto);
+    this.createUser(dto);
     return { message: 'AMUWIKI 회원가입이 완료되었습니다.', statusCode: 201 };
   }
 }
