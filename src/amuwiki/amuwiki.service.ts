@@ -25,10 +25,20 @@ export class AmuwikiService {
         },
       },
       request_cache: true,
+      size: 10,
     });
-
-    const sources = result.hits.hits.map(({ _source }) => _source);
+    const filteredHits = this.filterResults(result.hits.hits);
+    const sources = filteredHits.map(({ _source }) => _source);
     const temp = sources.map(({ title, text }) => ({ title, text }));
     return temp;
+  }
+
+  filterResults(hits) {
+    return hits.filter((hit) => {
+      const title = hit._source.title;
+      const regex = /[\(\)\/]/;
+
+      return !regex.test(title);
+    });
   }
 }
