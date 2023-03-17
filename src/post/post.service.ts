@@ -11,10 +11,10 @@ import { EditPostDto } from './dto/editPost.dto';
 export class PostService {
   constructor(
     @InjectModel('Amuwiki')
-    private amuwikiModel: Model<Amuwiki>,
+    private readonly amuwikiModel: Model<Amuwiki>,
     @InjectModel('User')
-    private userModel: Model<User>,
-    private authService: AuthService,
+    private readonly userModel: Model<User>,
+    private readonly authService: AuthService,
   ) {}
 
   async getEmail(email: string) {

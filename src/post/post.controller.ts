@@ -7,9 +7,9 @@ import { FastifyReply } from 'fastify';
 
 @Controller('post')
 export class PostController {
-  constructor(private postService: PostService) {}
+  constructor(private readonly postService: PostService) {}
 
-  @Post()
+  @Post('create')
   async createPost(
     @Headers('cookie') cookie: string,
     @Body() createPostDto: CreatePostDto,
@@ -20,7 +20,7 @@ export class PostController {
     res.send({ message: '게시글이 생성되었습니다.' });
   }
 
-  @Put()
+  @Put('edit')
   async editPost(
     @Headers('cookie') cookie,
     @Body() editPostDto: EditPostDto,
@@ -31,7 +31,7 @@ export class PostController {
     res.send({ message: '게시글이 수정되었습니다.' });
   }
 
-  @Delete()
+  @Delete('delete')
   async deletePost(@Headers('cookie') cookie, @Res() res: FastifyReply) {
     const email = await this.postService.detoken(cookie);
     this.postService.deletePost(email);
