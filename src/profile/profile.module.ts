@@ -13,6 +13,8 @@ import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { fastifyMultipart } from '@fastify/multipart';
+import { Multipart } from 'fastify-multipart';
 
 @Module({
   imports: [
@@ -41,7 +43,8 @@ export class ProfileModule {
       root: join(__dirname, '..', 'public'),
       prefix: '/public/',
     });
-
-    await app.listen(process.env.PORT || 3001, '0.0.0.0');
+    app.register(fastifyMultipart);
+    app.register(Multipart);
+    await app.listen(process.env.PORT || 3000, '0.0.0.0');
   }
 }

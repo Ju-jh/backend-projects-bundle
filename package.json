@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@fastify/cookie": "^6.0.0",
+    "@fastify/multipart": "^7.5.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -40,6 +41,7 @@
     "fastify-multipart": "^5.4.0",
     "fastify-static": "^4.7.0",
     "mongoose": "^6.10.2",
+    "nest-fastify-multer": "^1.0.1",
     "nodemailer": "^6.9.1",
     "nodemailer-smtp-transport": "^2.7.4",
     "passport-jwt": "^4.0.1",
