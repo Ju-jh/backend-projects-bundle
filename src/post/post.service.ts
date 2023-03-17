@@ -17,9 +17,17 @@ export class PostService {
     private authService: AuthService,
   ) {}
 
+  async getEmail(email: string) {
+    return await this.userModel.findOne({ email: email });
+  }
+
   async getNickname(email: string) {
     const isNickname = await this.userModel.findOne({ email: email });
     return await isNickname.nickname;
+  }
+
+  async getContributors(nickname: string) {
+    return await this.amuwikiModel.findOne({ contributors: nickname });
   }
 
   async detoken(cookie: string): Promise<string> {
@@ -28,36 +36,49 @@ export class PostService {
     return email;
   }
 
-  async createPost(email: string, dto: CreatePostDto): Promise<any> {
+  async createPost(postData: CreatePostDto, email): Promise<any> {
+    const findEmail = await this.getEmail(email);
     const nickname = await this.getNickname(email);
 
-    const temp = {
-      namespace: 0,
-      title: dto.title,
-      text: dto.text,
-      contributors: nickname,
-    };
-    return await new this.amuwikiModel(temp).save();
+    if (findEmail) {
+      const temp = {
+        namespace: 0,
+        title: postData.title,
+        text: postData.text,
+        contributors: nickname,
+      };
+      const postSave = new this.amuwikiModel(temp);
+      return await postSave.save();
+    } else {
+      return { message: '이메일이 존재하지 않습니다.' };
+    }
   }
 
-  async editPost(email: string, dto: EditPostDto) {
-    const nickname = await this.getNickname(email);
-    const check = await this.amuwikiModel.findOne({ contributors: nickname });
+  async editPost(email, editPostDto: EditPostDto) {
+    const findEmail = await this.getEmail(email);
 
-    const temp = {
-      namespace: 0,
-      title: dto.title,
-      text: dto.text,
-      contributors: nickname,
-    };
-    Object.assign(check, temp);
-    return check.save();
+    if (findEmail.email === email) {
+      const temp = {
+        title: editPostDto.title,
+        text: editPostDto.text,
+      };
+      return await this.amuwikiModel.updateOne(temp);
+    } else {
+      return { message: '이메일이 존재하지 않습니다.' };
+    }
   }
 
-  async deletePost(email: string) {
-    const nickname = await this.getNickname(email);
-    return await this.amuwikiModel.deleteOne({
-      contributors: nickname,
-    });
+  async deletePost(email) {
+    const findEmail = await this.getEmail(email);
+
+    if (findEmail) {
+      const findNickname = await this.getNickname(email);
+      const findContributors = await this.getContributors(findNickname);
+      await this.amuwikiModel.deleteOne({
+        findContributors,
+      });
+    } else {
+      return { message: '이메일이 존재하지 않습니다.' };
+    }
   }
 }

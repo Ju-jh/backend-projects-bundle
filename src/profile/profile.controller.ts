@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  Res,
-  Put,
-  Post,
-  Req,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Headers, Res, Put, Req } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { EditNicknameDto } from './dto/editNickname.dto';
 import { EditPasswordDto } from './dto/editPassword.dto';
@@ -29,7 +19,8 @@ export class ProfileController {
     @Body() dto: EditNicknameDto,
     @Res() res: FastifyReply,
   ) {
-    res.send(await this.profileService.handleEditNickname(cookie, dto));
+    const result = await this.profileService.handleEditNickname(cookie, dto);
+    res.status(result.statusCode).send(result);
   }
 
   @Put('password')
@@ -38,6 +29,17 @@ export class ProfileController {
     @Body() dto: EditPasswordDto,
     @Res() res: FastifyReply,
   ) {
-    res.send(await this.profileService.handleEditPassword(cookie, dto));
+    const result = await this.profileService.handleEditPassword(cookie, dto);
+    res.status(result.statusCode).send(result);
+  }
+
+  @Put('upload')
+  async editimage(
+    @Headers('cookie') cookie,
+    @Res() res: FastifyReply,
+    @Req() req: FastifyRequest,
+  ) {
+    const result = await this.profileService.handleUploadImage(cookie, req);
+    res.status(result.statusCode).send(result);
   }
 }

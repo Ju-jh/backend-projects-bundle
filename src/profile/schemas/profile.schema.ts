@@ -2,8 +2,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class Profile {
-  @Prop({ required: true, unique: true })
+  @Prop()
   email: string;
+  @Prop()
+  url: string;
+  @Prop()
+  nickname: string;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);
