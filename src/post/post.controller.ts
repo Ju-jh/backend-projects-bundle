@@ -1,13 +1,30 @@
 import { Controller, Put, Delete, Res } from '@nestjs/common';
-import { Body, Headers, Post } from '@nestjs/common/decorators';
+import { Body, Get, Headers, Post } from '@nestjs/common/decorators';
 import { CreatePostDto } from './dto/createPost.dto';
 import { EditPostDto } from './dto/editPost.dto';
 import { PostService } from './post.service';
 import { FastifyReply } from 'fastify';
+import { AuthService } from 'src/auth/auth.service';
+import { AmuwikiService } from 'src/amuwiki/amuwiki.service';
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly authService: AuthService,
+    private readonly amuwikiService: AmuwikiService,
+  ) {}
+
+  @Get('mypost')
+  async findMyPost(
+    @Headers('cookie') cookie: string,
+    @Res() res: FastifyReply,
+  ) {
+    const email = await this.authService.cookieToEmail(cookie);
+    const nickname = await this.postService.getNickname(email);
+    const result = await this.amuwikiService.findMyPosts(nickname);
+    res.send(result);
+  }
 
   @Post('create')
   async createPost(
@@ -16,7 +33,7 @@ export class PostController {
     @Res() res: FastifyReply,
   ) {
     const email = await this.postService.detoken(cookie);
-    await this.postService.createPost(createPostDto, email);
+    this.postService.createPost(createPostDto, email);
     res.send({ message: '게시글이 생성되었습니다.' });
   }
 

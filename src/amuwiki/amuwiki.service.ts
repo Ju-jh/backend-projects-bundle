@@ -33,6 +33,25 @@ export class AmuwikiService {
     return temp;
   }
 
+  async findMyPosts(nickname: string): Promise<any> {
+    const result = await this.elasticsearchService.search({
+      index: 'nest.amuwikis',
+      body: {
+        query: {
+          match: {
+            contributors: {
+              query: nickname,
+            },
+          },
+        },
+      },
+      request_cache: true,
+    });
+    const sources = result.hits.hits.map(({ _source }) => _source);
+    const temp = sources.map(({ title, text }) => ({ title, text }));
+    return temp;
+  }
+
   filterResults(hits) {
     return hits.filter((hit) => {
       const title = hit._source.title;
