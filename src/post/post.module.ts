@@ -10,6 +10,11 @@ import { UserModule } from 'src/user/user.module';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import fastifyStatic from 'fastify-static';
+import { AmuwikiService } from 'src/amuwiki/amuwiki.service';
+import {
+  ElasticsearchModule,
+  ElasticsearchService,
+} from '@nestjs/elasticsearch';
 
 @Module({
   imports: [
@@ -20,9 +25,18 @@ import fastifyStatic from 'fastify-static';
     AuthModule,
     UserModule,
     AmuwikiModule,
+    ElasticsearchModule.registerAsync({
+      useFactory: () => ({
+        node: process.env.ELASTICSEARCH_NODE,
+        auth: {
+          username: process.env.ELASTICSEARCH_USERNAME,
+          password: process.env.ELASTICSEARCH_PASSWORD,
+        },
+      }),
+    }),
   ],
   controllers: [PostController],
-  providers: [PostService],
+  providers: [PostService, AmuwikiService],
 })
 export class PostModule {
   static async setup(app: NestFastifyApplication) {
