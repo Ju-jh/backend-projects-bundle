@@ -1,5 +1,13 @@
-import { Controller, Put, Delete, Res } from '@nestjs/common';
-import { Body, Get, Headers, Post } from '@nestjs/common/decorators';
+import {
+  Controller,
+  Put,
+  Delete,
+  Res,
+  Body,
+  Get,
+  Headers,
+  Post,
+} from '@nestjs/common';
 import { CreatePostDto } from './dto/createPost.dto';
 import { EditPostDto } from './dto/editPost.dto';
 import { PostService } from './post.service';
@@ -29,29 +37,29 @@ export class PostController {
   @Post('create')
   async createPost(
     @Headers('cookie') cookie: string,
-    @Body() createPostDto: CreatePostDto,
+    @Body() dto: CreatePostDto,
     @Res() res: FastifyReply,
   ) {
     const email = await this.postService.detoken(cookie);
-    this.postService.createPost(createPostDto, email);
-    res.send({ message: '게시글이 생성되었습니다.' });
+    this.postService.createPost(email, dto);
+    res.send({ message: '게시글이 생성되었습니다.', statusCode: 201 });
   }
 
   @Put('edit')
   async editPost(
     @Headers('cookie') cookie,
-    @Body() editPostDto: EditPostDto,
+    @Body() dto: EditPostDto,
     @Res() res: FastifyReply,
   ) {
     const email = await this.postService.detoken(cookie);
-    this.postService.editPost(email, editPostDto);
-    res.send({ message: '게시글이 수정되었습니다.' });
+    this.postService.editPost(email, dto);
+    res.send({ message: '게시글이 수정되었습니다.', statusCode: 201 });
   }
 
   @Delete('delete')
   async deletePost(@Headers('cookie') cookie, @Res() res: FastifyReply) {
     const email = await this.postService.detoken(cookie);
     this.postService.deletePost(email);
-    res.send({ message: '게시글이 삭제되었습니다.' });
+    res.send({ message: '게시글이 삭제되었습니다.', statusCode: 200 });
   }
 }
