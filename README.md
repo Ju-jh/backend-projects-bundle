@@ -98,10 +98,8 @@
 
 - **ERD**
     
-![drawSQL-amu-wiki-export-2023-03-18](https://user-images.githubusercontent.com/117289578/226107473-80f67de0-9c95-4eef-98ba-865c6753ce24.png)
+![mongoDB hackolade](https://user-images.githubusercontent.com/117289578/226113241-62171e24-f7a9-49ca-b573-0e9e8fd4d8ff.png)
 
-
-    
 
 - **npm**
     
@@ -166,26 +164,26 @@
 ## **기능구현 분담**
 
 <aside>
-🙋🏻‍♂️ 서버 기능 구현 분담
+🙋🏻‍♂️  Dividing the implementation of Infrastructure features.
 
 - 이기웅
     - CI / CD
         
         GitHub Action
         
-    - 형상 관리
+    - Configuration Management
         
         GitHub
         
     - Redis / ElastiCache
 - 정붕기
-    - 가상화
+    - Virtualization Technology
         
         Docker
         
     - ElasticSearch
 - 주재훈
-    - MongoDB 관리
+    - MongoDB manager
         
         
     - Redis / ElastiCache
@@ -195,18 +193,17 @@
         
         
 - 한창윤
-    - 가상화
+    - Virtualization Technology
         
         Docker
         
-    - MongoDB
     - ElasticSearch
 - 조현수
-    - 가상화
+    - Virtualization Technology
         
         Docker
         
-    - 배포
+    - Deployment
         
         EC2
         
@@ -217,37 +214,32 @@
 </aside>
 
 <aside>
-🙋🏻‍♂️ 프로그램 기능 구현 분담
+🙋🏻‍♂️ Dividing the implementation of Server features.
 
 - 이기웅
-    
-    profile 조회
-    profile 수정 / nickname 변경 / password 변경
-    / profilePhoto 업로드
-    / profielPhoto 수정
+   1. View user profile
+   2. Edit user profile - nickname, password
+   3. Upload profile photo
+   4. Edit profile photo
     
 - 조현수
-    
-    작성한 post 조회
-    / post 작성
-    / post 수정
-    / post 삭제
-    
+   1. Retrieve a post
+   2. Create a post
+   3. Edit a post
+   4. Delete a post
 - 주재훈
-    
-    emailVerifying
-    / signup
-    / login
-    / logout
-    / withdrawal
+   1. Send email verification code
+   2. Verify email address
+   3. User signup
+   4. User login
+   5. User logout
+   6. User withdrawal
     
 - 정붕기
-    
-    elasticSearch
+    1. Elasticsearch
     
 - 한창윤
-    
-    elasticSearch
+    1. Elasticsearch
     
 </aside>
 
