@@ -11,10 +11,7 @@ import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import fastifyStatic from 'fastify-static';
 import { AmuwikiService } from 'src/amuwiki/amuwiki.service';
-import {
-  ElasticsearchModule,
-  ElasticsearchService,
-} from '@nestjs/elasticsearch';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 @Module({
   imports: [
