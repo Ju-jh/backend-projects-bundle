@@ -1,0 +1,49 @@
+version: '3'
+networks:
+  net:
+    driver: bridge
+
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Bechallengers
+      MONGO_INITDB_ROOT_PASSWORD: FsCkbE2PkhNM8rw0
+      MONGO_INITDB_DATABASE: nest
+      MONGO_URI: mongodb+srv://Bechallengers:FsCkbE2PkhNM8rw0@amuwiki.nhurd.mongodb.net/nest?retryWrites=true&w=majority
+    networks:
+      net:
+        aliases:
+          - mongo
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    environment:
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: dZFevGqIi9NsjeniWcL25kNW
+      ELASTICSEARCH_NODE: https://amuwiki.es.ap-northeast-2.aws.elastic-cloud.com
+      discovery.seed_hosts: elasticsearch
+      cluster.initial_master_nodes: elasticsearch
+    networks:
+      net:
+        aliases:
+          - elasticsearch
+    depends_on:
+      - mongo
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_URI: mongodb+srv://Bechallengers:FsCkbE2PkhNM8rw0@amuwiki.nhurd.mongodb.net/nest?retryWrites=true&w=majority
+      ELASTICSEARCH_NODE: https://amuwiki.es.ap-northeast-2.aws.elastic-cloud.com
+    depends_on:
+      - mongo
+      - elasticsearch
+    networks:
+      net:
+        aliases:
+          - backend
