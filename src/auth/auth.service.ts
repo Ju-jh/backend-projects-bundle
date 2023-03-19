@@ -4,12 +4,12 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User, UserDocument } from 'src/user/schemas/user.schema';
-import { CreateUserDto } from 'src/user/dto/createUser.dto';
-import { LoginUserDto } from './dto/loginUser.dto';
+import { CreateUserDto } from 'src/user/dto/createuser.dto';
+import { LoginUserDto } from './dto/loginuser.dto';
 import {
   VerifiedEmail,
   VerifiedEmailDocument,
-} from 'src/user/schemas/VerifiedEmail.schema';
+} from 'src/user/schemas/verifiedemail.schema';
 import { DeleteUserDto } from './dto/deleteUser.dto';
 
 @Injectable()

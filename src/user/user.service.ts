@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/createUser.dto';
+import { CreateUserDto } from './dto/createuser.dto';
 import { User } from './schemas/user.schema';
 import * as nodemailer from 'nodemailer';
-import { VerifyEmailCodeDto } from './dto/verifyEmailCode.dto';
+import { VerifyEmailCodeDto } from './dto/verifyemailcode.dto';
 import { VerifiedEmail } from './schemas/verifiedemail.schema';
 import * as bcrypt from 'bcrypt';
-import { VerifyEmailDto } from './dto/verifyEmail.dto';
+import { VerifyEmailDto } from './dto/verifyemail.dto';
 
 @Injectable()
 export class UserService {
