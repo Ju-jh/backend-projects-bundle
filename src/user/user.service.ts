@@ -5,9 +5,10 @@ import { CreateUserDto } from './dto/createuser.dto';
 import { User } from './schemas/user.schema';
 import * as nodemailer from 'nodemailer';
 import { VerifyEmailCodeDto } from './dto/verifyemailcode.dto';
-import { VerifiedEmail } from './schemas/verifiedemail.schema';
 import * as bcrypt from 'bcrypt';
 import { VerifyEmailDto } from './dto/verifyemail.dto';
+import { VerifiedEmail } from './schemas/verifiedemail.schema';
+
 
 @Injectable()
 export class UserService {

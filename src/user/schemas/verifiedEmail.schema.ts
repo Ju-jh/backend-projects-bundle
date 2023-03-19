@@ -1,14 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type VerifiedEmailDocument = VerifiedEmail & Document;
-
 @Schema()
-export class VerifiedEmail {
+export class VerifiedEmail extends Document {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ default: Date.now })
+  @Prop()
   createdAt: Date;
 }
 

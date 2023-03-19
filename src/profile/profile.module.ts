@@ -9,12 +9,12 @@ import { ProfileSchema } from './schemas/profile.schema';
 import { AmuwikiModule } from '../amuwiki/amuwiki.module';
 import { UserModule } from 'src/user/user.module';
 import { UserService } from 'src/user/user.service';
-import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { fastifyMultipart } from '@fastify/multipart';
 import { Multipart } from 'fastify-multipart';
+import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
 
 @Module({
   imports: [
