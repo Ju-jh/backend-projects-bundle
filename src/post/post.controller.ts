@@ -8,8 +8,8 @@ import {
   Headers,
   Post,
 } from '@nestjs/common';
-import { CreatePostDto } from './dto/createPost.dto';
-import { EditPostDto } from './dto/editPost.dto';
+import { CreatePostDto } from './dto/createpost.dto';
+import { EditPostDto } from './dto/editpost.dto';
 import { PostService } from './post.service';
 import { FastifyReply } from 'fastify';
 import { AuthService } from 'src/auth/auth.service';

@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { Amuwiki } from 'src/amuwiki/schema/amuwiki.schema';
 import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/user/schemas/user.schema';
-import { CreatePostDto } from './dto/createPost.dto';
-import { EditPostDto } from './dto/editPost.dto';
+import { CreatePostDto } from './dto/createpost.dto';
+import { EditPostDto } from './dto/editpost.dto';
 
 @Injectable()
 export class PostService {

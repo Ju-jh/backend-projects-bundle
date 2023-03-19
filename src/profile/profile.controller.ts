@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Headers, Res, Put, Req } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { EditNicknameDto } from './dto/editNickname.dto';
-import { EditPasswordDto } from './dto/editPassword.dto';
+import { EditNicknameDto } from './dto/editnickname.dto';
+import { EditPasswordDto } from './dto/editpassword.dto';
 import { ProfileService } from './profile.service';
 
 @Controller('profile')
