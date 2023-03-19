@@ -3,23 +3,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserDocument } from 'src/user/schemas/user.schema';
+import { User } from 'src/user/schemas/user.schema';
 import { CreateUserDto } from 'src/user/dto/createuser.dto';
 import { LoginUserDto } from './dto/loginuser.dto';
-import {
-  VerifiedEmail,
-  VerifiedEmailDocument,
-} from 'src/user/schemas/verifiedemail.schema';
-import { DeleteUserDto } from './dto/deleteUser.dto';
+import { DeleteUserDto } from './dto/deleteuser.dto';
+import { VerifiedEmail } from 'src/user/schemas/verifiedemail.schema';
+
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectModel(User.name)
-    private userModel: Model<UserDocument>,
+    private userModel: Model<User>,
     @InjectModel(VerifiedEmail.name)
-    private verifiedEmail: Model<VerifiedEmailDocument>,
+    private verifiedEmail: Model<VerifiedEmail>,
   ) {}
 
   async isValidateUser(email: string, password: string): Promise<boolean> {
@@ -43,7 +41,7 @@ export class AuthService {
     return access_token;
   }
 
-  async findByEmail(email: string): Promise<UserDocument> {
+  async findByEmail(email: string): Promise<User> {
     return this.userModel.findOne({ email }).exec();
   }
 
