@@ -3,10 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { UserSchema } from './schemas/user.schema';
 import { UserService } from './user.service';
-import { VerifiedEmailSchema } from './schemas/verifiedemail.schema';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
+import { VerifiedEmailSchema } from './schemas/verifiedemail.schema';
 
 @Module({
   imports: [

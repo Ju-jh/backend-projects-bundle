@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Headers, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { DeleteUserDto } from './dto/deleteUser.dto';
+import { DeleteUserDto } from './dto/deleteuser.dto';
 import { FastifyReply } from 'fastify';
-import { LoginUserDto } from './dto/loginUser.dto';
+import { LoginUserDto } from './dto/loginuser.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

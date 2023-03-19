@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
-import { CreateUserDto } from './dto/createUser.dto';
-import { VerifyEmailDto } from './dto/verifyEmail.dto';
-import { VerifyEmailCodeDto } from './dto/verifyEmailCode.dto';
+import { CreateUserDto } from './dto/createuser.dto';
+import { VerifyEmailDto } from './dto/verifyemail.dto';
+import { VerifyEmailCodeDto } from './dto/verifyemailcode.dto';
 import { UserService } from './user.service';
 import { FastifyReply } from 'fastify';
 
