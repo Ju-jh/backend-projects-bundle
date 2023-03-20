@@ -8,7 +8,7 @@ import { ProfileService } from './profile.service';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Get()
+  @Get('detail')
   async getDetailProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
     res.send(await this.profileService.handleGetProfile(cookie));
   }
