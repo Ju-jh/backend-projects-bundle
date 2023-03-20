@@ -1,7 +1,7 @@
 name: Build and Deploy Docker Image
 
 on:
-  push:
+  push: 
     branches:
       - main
 
@@ -66,4 +66,3 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script: |
             docker pull lkw9/amu:v1.0
-            docker-compose up --build
