@@ -125,7 +125,7 @@ export class AuthService {
       const isUser = await this.findByEmail(dto.email);
       const isLogin = await this.login(isUser);
       res.cookie('Authentication', `Bearer ${isLogin}`, {
-        domain: 'localhost',
+        domain: '54.180.137.224',
         path: '/',
         httpOnly: true,
       });
@@ -143,7 +143,7 @@ export class AuthService {
     if (result.statusCode === 200) {
       res
         .header('Set-Cookie', [
-          'Authentication=; Domain=localhost; Path=/; HttpOnly',
+          'Authentication=; Domain=54.180.137.224; Path=/; HttpOnly',
         ])
         .status(result.statusCode)
         .send(result);
