@@ -29,35 +29,31 @@ export class PostService {
   }
 
   async createPost(email: string, dto: CreatePostDto): Promise<any> {
-    const nickname = await this.getNickname(email);
-
     const temp = {
       namespace: 0,
       title: dto.title,
       text: dto.text,
-      contributors: nickname,
+      contributors: email,
     };
     return await new this.amuwikiModel(temp).save();
   }
 
   async editPost(email: string, dto: EditPostDto) {
-    const nickname = await this.getNickname(email);
-    const check = await this.amuwikiModel.findOne({ contributors: nickname });
+    const check = await this.amuwikiModel.findOne({ contributors: email });
 
     const temp = {
       namespace: 0,
       title: dto.title,
       text: dto.text,
-      contributors: nickname,
+      contributors: email,
     };
     Object.assign(check, temp);
     return check.save();
   }
 
   async deletePost(email: string) {
-    const nickname = await this.getNickname(email);
     return await this.amuwikiModel.deleteOne({
-      contributors: nickname,
+      contributors: email,
     });
   }
 }

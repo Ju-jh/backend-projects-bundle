@@ -32,14 +32,15 @@ export class AmuwikiService {
     return temp;
   }
 
-  async findMyPosts(nickname: string): Promise<any> {
+  async findMyPosts(email: string): Promise<any> {
     const result = await this.elasticsearchService.search({
       index: 'nest.amuwikis',
       body: {
         query: {
           match: {
             contributors: {
-              query: nickname,
+              query: email,
+              operator: 'AND',
             },
           },
         },
