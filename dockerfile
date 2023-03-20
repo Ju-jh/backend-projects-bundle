@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:18
 
 # 앱 폴더 생성
 WORKDIR /app
