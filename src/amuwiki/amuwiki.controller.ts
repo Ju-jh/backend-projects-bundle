@@ -1,14 +1,14 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { Controller, Get, Param, Req, Res } from '@nestjs/common';
+import { Controller, Get, Query, Req, Res } from '@nestjs/common';
 import { AmuwikiService } from './amuwiki.service';
 
 @Controller('amuwiki')
 export class AmuwikiController {
   constructor(private readonly amuwikiService: AmuwikiService) {}
 
-  @Get('/search/:query')
+  @Get('/search')
   async search(
-    @Param('query') query: string,
+    @Query('query') query: string,
     @Req() req: FastifyRequest,
     @Res() res: FastifyReply,
   ) {
