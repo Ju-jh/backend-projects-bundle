@@ -29,8 +29,7 @@ export class PostController {
     @Res() res: FastifyReply,
   ) {
     const email = await this.authService.cookieToEmail(cookie);
-    const nickname = await this.postService.getNickname(email);
-    const result = await this.amuwikiService.findMyPosts(nickname);
+    const result = await this.amuwikiService.findMyPosts(email);
     res.send(result);
   }
 
