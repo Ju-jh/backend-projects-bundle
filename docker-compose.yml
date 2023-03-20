@@ -7,8 +7,8 @@ services:
   # mongo:
   #   image: mongo
   #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: Bechallengers
-  #     MONGO_INITDB_ROOT_PASSWORD: FsCkbE2PkhNM8rw0
+  #     MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
   #     MONGO_INITDB_DATABASE: nest
   #     MONGO_URI: ${{ secrets.MONGODB_URI }}
   #   networks:
