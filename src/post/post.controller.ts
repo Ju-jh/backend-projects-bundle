@@ -14,6 +14,7 @@ import { PostService } from './post.service';
 import { FastifyReply } from 'fastify';
 import { AuthService } from 'src/auth/auth.service';
 import { AmuwikiService } from 'src/amuwiki/amuwiki.service';
+import { DeletePostDto } from './dto/deletepost.dto';
 
 @Controller('post')
 export class PostController {
@@ -51,14 +52,18 @@ export class PostController {
     @Res() res: FastifyReply,
   ) {
     const email = await this.postService.detoken(cookie);
-    this.postService.editPost(email, dto);
-    res.send({ message: '게시글이 수정되었습니다.', statusCode: 201 });
+    const result = await this.postService.editPost(email, dto);
+    res.status(result.statusCode).send(result);
   }
 
   @Delete('delete')
-  async deletePost(@Headers('cookie') cookie, @Res() res: FastifyReply) {
+  async deletePost(
+    @Headers('cookie') cookie,
+    @Res() res: FastifyReply,
+    @Body() dto: DeletePostDto,
+  ) {
     const email = await this.postService.detoken(cookie);
-    this.postService.deletePost(email);
-    res.send({ message: '게시글이 삭제되었습니다.', statusCode: 200 });
+    const result = await this.postService.deletePost(email, dto);
+    res.status(result.statusCode).send(result);
   }
 }

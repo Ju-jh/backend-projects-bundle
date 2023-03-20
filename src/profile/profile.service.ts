@@ -34,11 +34,17 @@ export class ProfileService {
     );
   }
 
+  async getProfile(email) {
+    return await this.profileModel.findOne({ email: email });
+  }
+
   async handleGetProfile(cookie: string) {
     const user = await this.getUser(cookie);
+    const profile = await this.getProfile(user.email);
     const data = {
       email: user.email,
       nickname: user.nickname,
+      url: profile.url,
     };
     return data;
   }
