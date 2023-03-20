@@ -17,7 +17,7 @@ export class AuthController {
   async logout(@Res({ passthrough: true }) res: FastifyReply) {
     res
       .header('Set-Cookie', [
-        'Authentication=; Domain=localhost; Path=/; HttpOnly',
+        'Authentication=; Domain=54.180.137.224; Path=/; HttpOnly',
       ])
       .send({ message: 'AMUWIKI에서 로그아웃 되었습니다.', statusCode: 200 });
   }
