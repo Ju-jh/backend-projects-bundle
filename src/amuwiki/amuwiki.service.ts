@@ -25,7 +25,6 @@ export class AmuwikiService {
         },
       },
       request_cache: true,
-      size: 10,
     });
     const filteredHits = this.filterResults(result.hits.hits);
     const sources = filteredHits.map(({ _source }) => _source);
