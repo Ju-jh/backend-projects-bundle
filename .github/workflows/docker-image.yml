@@ -1,6 +1,6 @@
 name: Build and Deploy Docker Image
 
-on: 
+on:
   push: 
     branches:
       - main
@@ -60,13 +60,3 @@ jobs:
           context: .
           push: true
           tags: lkw9/amu:v1.0
-      
-      - name: SSH to EC2 Instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          script: |
-            docker pull lkw9/amu:v1.0
