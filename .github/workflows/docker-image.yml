@@ -32,17 +32,17 @@ jobs:
             echo "SUBSTRINGCODE1=$SUBSTRINGCODE1" >> .env
             echo "SUBSTRINGCODE2=$SUBSTRINGCODE2" >> .env
         env:
-            PORT: ${{ secrets.REACT_APP_DOMAIN }}
-            MONGODB_URI: ${{ secrets.REACT_APP_DOMAIN }}
-            ELASTICSEARCH_NODE: ${{ secrets.REACT_APP_DOMAIN }}
-            ELASTICSEARCH_USERNAME: ${{ secrets.REACT_APP_DOMAIN }}
-            ELASTICSEARCH_PASSWORD: ${{ secrets.REACT_APP_DOMAIN }}
-            ACCESS_TOKEN_PRIVATE_KEY: ${{ secrets.REACT_APP_DOMAIN }}
-            NODEMAILER_USERNAME: ${{ secrets.REACT_APP_DOMAIN }}
-            NODEMAILER_PASSWORD: ${{ secrets.REACT_APP_DOMAIN }}
-            STRINGCODE: ${{ secrets.REACT_APP_DOMAIN }}
-            SUBSTRINGCODE1: ${{ secrets.REACT_APP_DOMAIN }}
-            SUBSTRINGCODE2: ${{ secrets.REACT_APP_DOMAIN }}
+            PORT: ${{ secrets.PORT }}
+            MONGODB_URI: ${{ secrets.MONGODB_URI }}
+            ELASTICSEARCH_NODE: ${{ secrets.ELASTICSEARCH_NODE }}
+            ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
+            ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+            ACCESS_TOKEN_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN_PRIVATE_KEY }}
+            NODEMAILER_USERNAME: ${{ secrets.NODEMAILER_USERNAME }}
+            NODEMAILER_PASSWORD: ${{ secrets.NODEMAILER_PASSWORD }}
+            STRINGCODE: ${{ secrets.STRINGCODE }}
+            SUBSTRINGCODE1: ${{ secrets.SUBSTRINGCODE1 }}
+            SUBSTRINGCODE2: ${{ secrets.SUBSTRINGCODE2 }}
       
       - name: Login to Docker Hub
         uses: docker/login-action@v1
