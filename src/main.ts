@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import fastifyCookie from 'fastify-cookie';
+import fastifyCookie from '@fastify/cookie';
 import * as fmp from 'fastify-multipart';
 
 async function bootstrap() {
@@ -16,7 +16,6 @@ async function bootstrap() {
   app.register(fastifyCookie, {
     secret: process.env.ACCESS_TOKEN_PRIVATE_KEY,
     parseOptions: {},
-    serializeOptions: {},
   });
   app.register(fmp);
   const configService = app.get(ConfigService);
