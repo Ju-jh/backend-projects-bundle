@@ -26,9 +26,14 @@ export class AmuwikiService {
       },
       request_cache: true,
     });
+
     const filteredHits = this.filterResults(result.hits.hits);
-    const sources = filteredHits.map(({ _source }) => _source);
-    const temp = sources.map(({ title, text }) => ({ title, text }));
+    const temp = filteredHits.map((hit) => ({
+      id: hit._id,
+      title: hit._source.title,
+      text: hit._source.text,
+    }));
+
     return temp;
   }
 
@@ -47,8 +52,13 @@ export class AmuwikiService {
       },
       request_cache: true,
     });
-    const sources = result.hits.hits.map(({ _source }) => _source);
-    const temp = sources.map(({ title, text }) => ({ title, text }));
+
+    const filteredHits = this.filterResults(result.hits.hits);
+    const temp = filteredHits.map((hit) => ({
+      id: hit._id,
+      title: hit._source.title,
+      text: hit._source.text,
+    }));
     return temp;
   }
 
