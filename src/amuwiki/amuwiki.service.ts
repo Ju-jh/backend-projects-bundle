@@ -31,7 +31,6 @@ export class AmuwikiService {
     const temp = filteredHits.map((hit) => ({
       id: hit._id,
       title: hit._source.title,
-      text: hit._source.text,
     }));
 
     return temp;

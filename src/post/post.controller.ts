@@ -15,6 +15,7 @@ import { FastifyReply } from 'fastify';
 import { AuthService } from 'src/auth/auth.service';
 import { AmuwikiService } from 'src/amuwiki/amuwiki.service';
 import { DeletePostDto } from './dto/deletepost.dto';
+import { DetailPostDto } from './dto/detailpost.dto';
 
 @Controller('post')
 export class PostController {
@@ -31,6 +32,16 @@ export class PostController {
   ) {
     const email = await this.authService.cookieToEmail(cookie);
     const result = await this.amuwikiService.findMyPosts(email);
+    res.send(result);
+  }
+
+  @Post('detail')
+  async getDetailPost(
+    @Headers('cookie') cookie: string,
+    @Res() res: FastifyReply,
+    @Body() dto: DetailPostDto,
+  ) {
+    const result = await this.postService.getDetailPost(dto);
     res.send(result);
   }
 

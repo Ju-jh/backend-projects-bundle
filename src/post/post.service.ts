@@ -6,6 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/user/schemas/user.schema';
 import { CreatePostDto } from './dto/createpost.dto';
 import { DeletePostDto } from './dto/deletepost.dto';
+import { DetailPostDto } from './dto/detailpost.dto';
 import { EditPostDto } from './dto/editpost.dto';
 
 @Injectable()
@@ -27,6 +28,16 @@ export class PostService {
     const info = await this.authService.parseToken(cookie);
     const email = Object.values(info)[0] as string;
     return email;
+  }
+
+  async getDetailPost(dto: DetailPostDto) {
+    const post = await this.amuwikiModel.find({ _id: dto._id });
+    const temp = post.map((dto) => ({
+      _id: dto._id,
+      title: dto.title,
+      text: dto.text,
+    }));
+    return temp;
   }
 
   async createPost(email: string, dto: CreatePostDto): Promise<any> {
