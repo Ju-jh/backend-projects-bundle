@@ -36,27 +36,23 @@ export class PostController {
   }
 
   @Post('detail')
-  async getDetailPost(
-    @Headers('cookie') cookie: string,
-    @Res() res: FastifyReply,
-    @Body() dto: DetailPostDto,
-  ) {
+  async getDetailPost(@Body() dto: DetailPostDto, @Res() res: FastifyReply) {
     const result = await this.postService.getDetailPost(dto);
     res.send(result);
   }
 
-  @Post('create')
+  @Post()
   async createPost(
     @Headers('cookie') cookie: string,
     @Body() dto: CreatePostDto,
     @Res() res: FastifyReply,
   ) {
     const email = await this.postService.detoken(cookie);
-    this.postService.createPost(email, dto);
-    res.send({ message: '게시글이 생성되었습니다.', statusCode: 201 });
+    const result = this.postService.createPost(email, dto);
+    res.send(result);
   }
 
-  @Put('edit')
+  @Put()
   async editPost(
     @Headers('cookie') cookie,
     @Body() dto: EditPostDto,
@@ -64,17 +60,12 @@ export class PostController {
   ) {
     const email = await this.postService.detoken(cookie);
     const result = await this.postService.editPost(email, dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 
-  @Delete('delete')
-  async deletePost(
-    @Headers('cookie') cookie,
-    @Res() res: FastifyReply,
-    @Body() dto: DeletePostDto,
-  ) {
-    const email = await this.postService.detoken(cookie);
-    const result = await this.postService.deletePost(email, dto);
-    res.status(result.statusCode).send(result);
+  @Delete()
+  async deletePost(@Body() dto: DeletePostDto, @Res() res: FastifyReply) {
+    const result = await this.postService.deletePost(dto);
+    res.send(result);
   }
 }

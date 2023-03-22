@@ -19,11 +19,6 @@ export class PostService {
     private readonly authService: AuthService,
   ) {}
 
-  async getNickname(email: string) {
-    const isNickname = await this.userModel.findOne({ email: email });
-    return await isNickname.nickname;
-  }
-
   async detoken(cookie: string): Promise<string> {
     const info = await this.authService.parseToken(cookie);
     const email = Object.values(info)[0] as string;
@@ -50,19 +45,9 @@ export class PostService {
     return await new this.amuwikiModel(temp).save();
   }
 
-  async editPost(
-    email: string,
-    dto: EditPostDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async editPost(email: string, dto: EditPostDto) {
     const post = await this.amuwikiModel.findOne({ _id: dto._id });
 
-    if (!post) {
-      return { message: '게시글이 존재하지 않습니다.', statusCode: 400 };
-    }
-
-    if (email !== post.contributors[0]) {
-      return { message: '게시글의 소유자가 아닙니다.', statusCode: 400 };
-    }
     const temp = {
       _id: dto._id,
       namespace: 0,
@@ -71,29 +56,13 @@ export class PostService {
       contributors: email,
     };
     Object.assign(post, temp);
-
-    post.save();
-    return { message: '게시글이 수정되었습니다.', statusCode: 201 };
+    return post.save();
   }
 
-  async deletePost(
-    email: string,
-    dto: DeletePostDto,
-  ): Promise<{ message: string; statusCode: number }> {
-    const post = await this.amuwikiModel.findOne({ _id: dto._id });
-
-    if (!post) {
-      return { message: '게시글이 존재하지 않습니다.', statusCode: 400 };
-    }
-
-    if (email !== post.contributors[0]) {
-      return { message: '게시글의 소유자가 아닙니다.', statusCode: 400 };
-    }
-
-    await this.amuwikiModel.deleteOne({
+  async deletePost(dto: DeletePostDto) {
+    const remove = await this.amuwikiModel.deleteOne({
       _id: dto._id,
     });
-
-    return { message: '게시글이 삭제되었습니다.', statusCode: 200 };
+    return remove;
   }
 }
