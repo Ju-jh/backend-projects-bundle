@@ -10,7 +10,8 @@ export class ProfileController {
 
   @Get('detail')
   async getDetailProfile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
-    res.send(await this.profileService.handleGetProfile(cookie));
+    const result = await this.profileService.handleGetProfile(cookie);
+    res.send(result);
   }
 
   @Put('nickname')
@@ -20,7 +21,7 @@ export class ProfileController {
     @Res() res: FastifyReply,
   ) {
     const result = await this.profileService.handleEditNickname(cookie, dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 
   @Put('password')
@@ -30,7 +31,7 @@ export class ProfileController {
     @Res() res: FastifyReply,
   ) {
     const result = await this.profileService.handleEditPassword(cookie, dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 
   @Put('upload')
@@ -40,6 +41,6 @@ export class ProfileController {
     @Req() req: FastifyRequest,
   ) {
     const result = await this.profileService.handleUploadImage(cookie, req);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 }

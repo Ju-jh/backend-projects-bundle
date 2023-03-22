@@ -49,10 +49,7 @@ export class ProfileService {
     return data;
   }
 
-  async handleEditNickname(
-    cookie: string,
-    dto: EditNicknameDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleEditNickname(cookie: string, dto: EditNicknameDto) {
     const user = await this.getUser(cookie);
 
     const NicknameValidate = await this.userService.isValidateNickname(
@@ -62,26 +59,21 @@ export class ProfileService {
       return {
         message:
           '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
-        statusCode: 400,
       };
     }
     const nicknameExist = await this.userService.isNicknameExist(dto.nickname);
     if (nicknameExist) {
-      return { message: '이미 존재하는 닉네임입니다.', statusCode: 400 };
+      return { message: '이미 존재하는 닉네임입니다.' };
     }
     user.nickname = dto.nickname;
-    await user.save();
-    return { message: '닉네임이 수정되었습니다.', statusCode: 200 };
+    return await user.save();
   }
 
-  async handleEditPassword(
-    cookie: string,
-    dto: EditPasswordDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleEditPassword(cookie: string, dto: EditPasswordDto) {
     const user = await this.getUser(cookie);
     const isPasswordValid = await bcrypt.compare(dto.password, user.password);
     if (!isPasswordValid) {
-      return { message: '기존 비밀번호가 틀렸습니다.', statusCode: 400 };
+      return { message: '기존 비밀번호가 틀렸습니다.' };
     }
     const validatePassword = await this.userService.isValidatePassword(
       dto.newPassword,
@@ -90,18 +82,13 @@ export class ProfileService {
       return {
         message:
           '비밀번호는 8자 이상 20자 이하, 영문자,숫자,특수문자를 포함해야합니다.',
-        statusCode: 400,
       };
     }
     user.password = await bcrypt.hash(dto.newPassword, 10);
-    await user.save();
-    return { message: '패스워드가 수정되었습니다.', statusCode: 200 };
+    return await user.save();
   }
 
-  async handleUploadImage(
-    cookie: string,
-    req: FastifyRequest,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleUploadImage(cookie: string, req: FastifyRequest) {
     const user = await this.getUser(cookie);
     const data = await req.file();
     const imageUrl = `./uploads/${data.filename}`;
@@ -112,15 +99,15 @@ export class ProfileService {
     };
     const Profile = await this.profileModel.findOne({ email: temp.email });
     if (data.mimetype !== 'image/jpeg') {
-      return { message: '파일이 이미지가 아닙니다.', statusCode: 415 };
+      return { message: '파일이 이미지가 아닙니다.' };
     }
     this.getPump(data);
     if (!Profile) {
       await new this.profileModel(temp).save();
-      return { message: '프로필 이미지가 업로드되었습니다.', statusCode: 200 };
+      return { message: '프로필 이미지가 업로드되었습니다.' };
     }
     Profile.url = temp.url;
     await new this.profileModel(Profile).save();
-    return { message: '프로필 이미지가 수정되었습니다.', statusCode: 200 };
+    return { message: '프로필 이미지가 수정되었습니다.' };
   }
 }
