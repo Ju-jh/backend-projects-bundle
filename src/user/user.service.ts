@@ -9,7 +9,6 @@ import * as bcrypt from 'bcrypt';
 import { VerifyEmailDto } from './dto/verifyemail.dto';
 import { VerifiedEmail } from './schemas/verifiedemail.schema';
 
-
 @Injectable()
 export class UserService {
   private emailVerificationCodes = new Map<string, string>();
@@ -105,64 +104,55 @@ export class UserService {
     return code;
   }
 
-  async handleEmail(
-    dto: VerifyEmailDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleEmail(dto: VerifyEmailDto): Promise<{ message: string }> {
     const isEmailValid = this.isValidateEmail(dto.email);
     if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
+      return { message: '올바른 이메일 형식이 아닙니다.' };
     }
     const isEmailExist = await this.isEmailExistinVerified(dto.email);
     if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
+      return { message: '이미 존재하는 이메일입니다.' };
     }
     const emailVerificationCode = this.sendEmailVerificationCode(dto.email);
     emailVerificationCode;
     return {
       message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
-      statusCode: 201,
     };
   }
 
-  async handleVerifying(
-    dto: VerifyEmailCodeDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleVerifying(dto: VerifyEmailCodeDto): Promise<{ message: string }> {
     const isCodeValid = await this.verifyEmail(dto.email, dto.code);
     if (!isCodeValid) {
       return {
         message: '이메일 인증 코드가 유효하지 않습니다.',
-        statusCode: 400,
       };
     }
     this.saveVerifiedEmail(dto);
-    return { message: '이메일 인증이 완료되었습니다.', statusCode: 200 };
+    return { message: '이메일 인증이 완료되었습니다.' };
   }
 
-  async handleVerified(
-    dto: CreateUserDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  async handleVerified(dto: CreateUserDto): Promise<{ message: string }> {
     const isEmailValid = this.isValidateEmail(dto.email);
     if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 400 };
+      return { message: '올바른 이메일 형식이 아닙니다.' };
     }
     const isEmailExist = await this.isEmailExist(dto.email);
     if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.', statusCode: 400 };
+      return { message: '이미 존재하는 이메일입니다.' };
     }
     const isEmailVerified = await this.isEmailExistinVerified(dto.email);
     if (isEmailVerified === false) {
-      return { message: '인증되지 않은 이메일입니다.', statusCode: 400 };
+      return { message: '인증되지 않은 이메일입니다.' };
     }
     const isNicknameExist = await this.isNicknameExist(dto.nickname);
     if (isNicknameExist) {
-      return { message: '이미 존재하는 닉네임입니다.', statusCode: 400 };
+      return { message: '이미 존재하는 닉네임입니다.' };
     }
     const isNicknameValid = this.isValidateNickname(dto.nickname);
     if (!isNicknameValid) {
       return {
         message:
           '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
-        statusCode: 400,
       };
     }
     const isPasswordValid = this.isValidatePassword(dto.password);
@@ -170,10 +160,9 @@ export class UserService {
       return {
         message:
           '비밀번호는 8자 이상 20자 이하, 영문자,숫자,특수문자를 포함해야합니다.',
-        statusCode: 400,
       };
     }
     this.createUser(dto);
-    return { message: 'AMUWIKI 회원가입이 완료되었습니다.', statusCode: 201 };
+    return { message: 'AMUWIKI 회원가입이 완료되었습니다.' };
   }
 }
