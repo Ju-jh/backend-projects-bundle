@@ -9,17 +9,8 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() dto: LoginUserDto, @Res() res: FastifyReply) {
-    const result = await this.authService.handleLogin(dto, res);
-    res.status(result.statusCode).send(result);
-  }
-
-  @Post('logout')
-  async logout(@Res({ passthrough: true }) res: FastifyReply) {
-    res
-      .header('Set-Cookie', [
-        'Authentication=; Domain=54.180.137.224; Path=/; HttpOnly',
-      ])
-      .send({ message: 'AMUWIKI에서 로그아웃 되었습니다.', statusCode: 200 });
+    const result = await this.authService.handleLogin(dto);
+    res.send(result);
   }
 
   @Delete('withdrawal')
@@ -28,7 +19,7 @@ export class AuthController {
     @Body() dto: DeleteUserDto,
     @Res() res: FastifyReply,
   ) {
-    const result = await this.authService.handleWithdrawal(cookie, dto, res);
-    res.status(result.statusCode).send(result);
+    const result = await this.authService.handleWithdrawal(cookie, dto);
+    res.send(result);
   }
 }

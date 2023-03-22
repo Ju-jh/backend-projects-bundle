@@ -64,45 +64,21 @@ export class AuthService {
     return await this.userModel.findOne({ email: email });
   }
 
-  async loginUser(
-    dto: LoginUserDto,
-  ): Promise<{ message: string; statusCode: number }> {
-    const isEmailValid = this.isValidateEmail(dto.email);
-    if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.', statusCode: 401 };
-    }
-    const isUser = await this.findByEmail(dto.email);
-    if (!isUser) {
-      return {
-        message: '이메일 혹은 패스워드를 찾을 수 없습니다.',
-        statusCode: 401,
-      };
-    }
-    const isPassword = await this.isValidateUser(dto.email, dto.password);
-    if (isPassword === false) {
-      return {
-        message: '이메일 혹은 패스워드를 찾을 수 없습니다.',
-        statusCode: 401,
-      };
-    }
-    return { message: 'AMUWIKI에 오신걸 환영합니다.', statusCode: 200 };
-  }
-
   async deleteUser(
     email: string,
     dto: DeleteUserDto,
-  ): Promise<{ message: string; statusCode: number }> {
+  ): Promise<{ message: string }> {
     const user = await this.findByEmail(email);
     if (!user) {
-      return { message: '사용자를 찾을 수 없습니다.', statusCode: 400 };
+      return { message: '사용자를 찾을 수 없습니다.' };
     }
     const isPasswordValid = await bcrypt.compare(dto.password, user.password);
     if (!isPasswordValid) {
-      return { message: '비밀번호가 올바르지 않습니다.', statusCode: 400 };
+      return { message: '비밀번호가 올바르지 않습니다.' };
     }
     const deletedUser = await this.userModel.findOneAndDelete({ email });
     if (!deletedUser) {
-      return { message: '사용자 삭제에 실패했습니다.', statusCode: 400 };
+      return { message: '사용자 삭제에 실패했습니다.' };
     }
     const deletedvalidateEmail = await this.verifiedEmail.findOneAndDelete({
       email,
@@ -110,44 +86,39 @@ export class AuthService {
     if (!deletedvalidateEmail) {
       return {
         message: '이메일 인증 정보 삭제에 실패했습니다.',
-        statusCode: 400,
       };
     }
-    return { message: '사용자 삭제에 성공했습니다.', statusCode: 200 };
+    return { message: '사용자 삭제에 성공했습니다.' };
   }
 
-  async handleLogin(
-    dto: LoginUserDto,
-    res: any,
-  ): Promise<{ message: string; statusCode: number }> {
-    const result = await this.loginUser(dto);
-    if (result.message.includes('환영')) {
-      const isUser = await this.findByEmail(dto.email);
-      const isLogin = await this.login(isUser);
-      res.cookie('Authentication', `Bearer ${isLogin}`, {
-        domain: '54.180.137.224',
-        path: '/',
-        httpOnly: true,
-      });
+  async handleLogin(dto: LoginUserDto) {
+    const isEmailValid = await this.isValidateEmail(dto.email);
+    if (!isEmailValid) {
+      return { message: '올바른 이메일 형식이 아닙니다.' };
     }
-    return result;
+    const isUser = await this.findByEmail(dto.email);
+    if (!isUser) {
+      return {
+        message: '이메일 혹은 패스워드를 찾을 수 없습니다.',
+      };
+    }
+    const isPassword = await this.isValidateUser(dto.email, dto.password);
+    if (isPassword === false) {
+      return {
+        message: '이메일 혹은 패스워드를 찾을 수 없습니다.',
+      };
+    }
+    const user = await this.findByEmail(dto.email);
+    const token = await this.login(user);
+    const accessToken = `Bearer%20${token}`;
+    return accessToken;
   }
 
   async handleWithdrawal(
     cookie: string,
     dto: DeleteUserDto,
-    res: any,
-  ): Promise<{ message: string; statusCode: number }> {
+  ): Promise<{ message: string }> {
     const email = await this.cookieToEmail(cookie);
-    const result = await this.deleteUser(email, dto);
-    if (result.statusCode === 200) {
-      res
-        .header('Set-Cookie', [
-          'Authentication=; Domain=54.180.137.224; Path=/; HttpOnly',
-        ])
-        .status(result.statusCode)
-        .send(result);
-    }
-    return result;
+    return await this.deleteUser(email, dto);
   }
 }

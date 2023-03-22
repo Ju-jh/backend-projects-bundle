@@ -12,18 +12,18 @@ export class UserController {
   @Post('email')
   async sendCode(@Body() dto: VerifyEmailDto, @Res() res: FastifyReply) {
     const result = await this.userService.handleEmail(dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 
   @Post('verifying')
   async verifyCode(@Body() dto: VerifyEmailCodeDto, @Res() res: FastifyReply) {
     const result = await this.userService.handleVerifying(dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 
   @Post('verified')
   async createUser(@Body() dto: CreateUserDto, @Res() res: FastifyReply) {
     const result = await this.userService.handleVerified(dto);
-    res.status(result.statusCode).send(result);
+    res.send(result);
   }
 }
