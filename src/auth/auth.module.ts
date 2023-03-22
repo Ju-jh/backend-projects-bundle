@@ -7,7 +7,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
