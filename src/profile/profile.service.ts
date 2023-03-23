@@ -58,7 +58,7 @@ export class ProfileService {
     if (!NicknameValidate) {
       return {
         message:
-          '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
+          '닉네임은 3자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
       };
     }
     const nicknameExist = await this.userService.isNicknameExist(dto.nickname);
