@@ -44,7 +44,7 @@ export class ProfileService {
     const data = {
       email: user.email,
       nickname: user.nickname,
-      url: profile.url,
+      url: profile?.url,
     };
     return data;
   }
