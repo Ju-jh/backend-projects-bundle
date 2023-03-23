@@ -58,6 +58,7 @@
 
 [Amuwiki_와이어프레임_수정본_230317.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b1f6ae2f-33f0-4812-a540-c2e29691790e/Amuwiki_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84_%EC%88%98%EC%A0%95%EB%B3%B8_230317.pdf)
 
+
 ---
 
 ## 프로그램 세팅 및 작업
@@ -76,24 +77,10 @@
     
     
     <aside>
-    🔗 BackEnd_Stack
-    
-    | Programming Language | TypeScript  |
-    | --- | --- |
-    | Framework | Nest.js(express) |
-    | CI/CD | GitHub action |
-    | Container | Docker  |
-    | DB | MongoDB |
-    | Linux | Ubuntu |
-    | API Document | Swagger |
-    | Deploy | AWS EC2 |
-    | Virtualization Technology | Docker  |
-    | Cooperation Tool | GitHub |
-    | RunTime Environment | Node.js |
-    | Repository | Github |
-    | ElastiCache | Redis |
-    | ElasticSearch | Kibana,Search |
-    </aside>
+🔗 BackEnd_Stack
+
+![화면 캡처 2023-03-23 163233](https://user-images.githubusercontent.com/117289578/227134873-eaf4f0b2-3020-4fa2-9758-7372e4e8a819.png)
+
     
 
 - **ERD**
@@ -155,9 +142,10 @@
 ## API
 
 <aside>
+
 📃 API 표
 
-[API](https://www.notion.so/c87c379c81784e83b29ab59126243748)
+![화면 캡처 2023-03-23 162840](https://user-images.githubusercontent.com/117289578/227133318-d195ef6a-fdbd-4be9-848b-9c801b3b4a2a.png)
 
 </aside>
 
@@ -171,26 +159,21 @@
         
         GitHub Action
         
-    - Configuration Management
-        
-        GitHub
-        
-    - Redis / ElastiCache
+    - AWS
+
 - 정붕기
     - Virtualization Technology
         
         Docker
         
     - ElasticSearch
+    
+    - AWS
+    
 - 주재훈
     - MongoDB manager
         
-        
-    - Redis / ElastiCache
-        
-        
-    - Nginx
-        
+    - AWS
         
 - 한창윤
     - Virtualization Technology
@@ -198,6 +181,9 @@
         Docker
         
     - ElasticSearch
+    
+    - AWS
+    
 - 조현수
     - Virtualization Technology
         
@@ -207,10 +193,9 @@
         
         EC2
         
-    - Redis / ElastiCache
+    - AWS
         
         
-    - Nginx
 </aside>
 
 <aside>
@@ -243,25 +228,11 @@
     
 </aside>
 
-## Stack
-
-![화면 캡처 2023-03-18 215750](https://user-images.githubusercontent.com/117289578/226107736-9a4df7d9-eeba-460a-bcd0-42b440107e63.png)
-
 
 ## Architecture
 
-예정 시안 1
+![Lv1](https://user-images.githubusercontent.com/117289578/227130486-711e9829-f50f-45bd-a1ff-7dd39d2be208.png)
 
-Redis 사용하여 ElasticCache 사용하는 경우
-
-![image](https://user-images.githubusercontent.com/117289578/226107046-321df3d5-4fac-478c-b9c0-25e367202db2.png)
-
-
-예정 시안 2
-
-Redis 사용하여 ElasticCache 사용하지 않는 경우
-
-![2](https://user-images.githubusercontent.com/117289578/226107053-69dce23f-da9f-4a18-800e-ef4d5c3abcea.png)
 
 
 ---
