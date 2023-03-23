@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createuser.dto';
@@ -44,7 +44,7 @@ export class UserService {
   }
 
   isValidateNickname(nickname: string): boolean {
-    const nicknameregex = /^[^`~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/\?]{5,10}$/;
+    const nicknameregex = /^[^`~!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/\?]{3,10}$/;
     return nicknameregex.test(nickname);
   }
 
@@ -105,64 +105,74 @@ export class UserService {
   }
 
   async handleEmail(dto: VerifyEmailDto): Promise<{ message: string }> {
-    const isEmailValid = this.isValidateEmail(dto.email);
-    if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.' };
+    try {
+      const isEmailValid = this.isValidateEmail(dto.email);
+      if (!isEmailValid) {
+        throw new Error('올바른 이메일 형식이 아닙니다.');
+      }
+      const isEmailExist = await this.isEmailExistinVerified(dto.email);
+      if (isEmailExist) {
+        throw new Error('이미 존재하는 이메일입니다.');
+      }
+      const emailVerificationCode = await this.sendEmailVerificationCode(
+        dto.email,
+      );
+      emailVerificationCode;
+      return {
+        message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    const isEmailExist = await this.isEmailExistinVerified(dto.email);
-    if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.' };
-    }
-    const emailVerificationCode = this.sendEmailVerificationCode(dto.email);
-    emailVerificationCode;
-    return {
-      message: '이메일 인증 코드가 발송되었습니다. 인증 코드를 입력하세요.',
-    };
   }
 
   async handleVerifying(dto: VerifyEmailCodeDto): Promise<{ message: string }> {
-    const isCodeValid = await this.verifyEmail(dto.email, dto.code);
-    if (!isCodeValid) {
-      return {
-        message: '이메일 인증 코드가 유효하지 않습니다.',
-      };
+    try {
+      const isCodeValid = await this.verifyEmail(dto.email, dto.code);
+      if (!isCodeValid) {
+        throw new Error('이메일 인증 코드가 유효하지 않습니다.');
+      }
+      this.saveVerifiedEmail(dto);
+      return { message: '이메일 인증이 완료되었습니다.' };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    this.saveVerifiedEmail(dto);
-    return { message: '이메일 인증이 완료되었습니다.' };
   }
 
   async handleVerified(dto: CreateUserDto): Promise<{ message: string }> {
-    const isEmailValid = this.isValidateEmail(dto.email);
-    if (!isEmailValid) {
-      return { message: '올바른 이메일 형식이 아닙니다.' };
-    }
-    const isEmailExist = await this.isEmailExist(dto.email);
-    if (isEmailExist) {
-      return { message: '이미 존재하는 이메일입니다.' };
-    }
-    const isEmailVerified = await this.isEmailExistinVerified(dto.email);
-    if (isEmailVerified === false) {
-      return { message: '인증되지 않은 이메일입니다.' };
-    }
-    const isNicknameExist = await this.isNicknameExist(dto.nickname);
-    if (isNicknameExist) {
-      return { message: '이미 존재하는 닉네임입니다.' };
-    }
-    const isNicknameValid = this.isValidateNickname(dto.nickname);
-    if (!isNicknameValid) {
-      return {
-        message:
-          '닉네임은 5자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
-      };
-    }
-    const isPasswordValid = this.isValidatePassword(dto.password);
-    if (!isPasswordValid) {
-      return {
-        message:
+    try {
+      const isEmailValid = this.isValidateEmail(dto.email);
+      if (!isEmailValid) {
+        throw new Error('올바른 이메일 형식이 아닙니다.');
+      }
+      const isEmailExist = await this.isEmailExist(dto.email);
+      if (isEmailExist) {
+        throw new Error('이미 존재하는 이메일입니다.');
+      }
+      const isEmailVerified = await this.isEmailExistinVerified(dto.email);
+      if (isEmailVerified === false) {
+        throw new Error('인증되지 않은 이메일입니다.');
+      }
+      const isNicknameExist = await this.isNicknameExist(dto.nickname);
+      if (isNicknameExist) {
+        throw new Error('이미 존재하는 닉네임입니다.');
+      }
+      const isNicknameValid = this.isValidateNickname(dto.nickname);
+      if (!isNicknameValid) {
+        throw new Error(
+          '닉네임은 3자 이상 10자 이하, 영문자,숫자,한글만 사용할 수 있습니다.',
+        );
+      }
+      const isPasswordValid = this.isValidatePassword(dto.password);
+      if (!isPasswordValid) {
+        throw new Error(
           '비밀번호는 8자 이상 20자 이하, 영문자,숫자,특수문자를 포함해야합니다.',
-      };
+        );
+      }
+      this.createUser(dto);
+      return { message: 'AMUWIKI 회원가입이 완료되었습니다.' };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
-    this.createUser(dto);
-    return { message: 'AMUWIKI 회원가입이 완료되었습니다.' };
   }
 }
