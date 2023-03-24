@@ -36,11 +36,21 @@ export class ProfileController {
 
   @Put('upload')
   async editimage(
-    @Headers('cookie') cookie,
-    @Res() res: FastifyReply,
+    @Headers('cookie') cookie: string,
     @Req() req: FastifyRequest,
-  ) {
-    const result = await this.profileService.handleUploadImage(cookie, req);
-    res.send(result);
+    @Res() reply: FastifyReply,
+  ): Promise<any> {
+    const result = await this.profileService.handleUploadImage(
+      cookie,
+      req,
+      reply,
+    );
+    return result;
+  }
+
+  @Get('image')
+  async seeUploadedFile(@Headers('cookie') cookie, @Res() res: FastifyReply) {
+    const result = await this.profileService.getImage(cookie);
+    res.type('image/jpeg').send(result);
   }
 }
