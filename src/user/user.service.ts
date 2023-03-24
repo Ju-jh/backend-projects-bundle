@@ -67,14 +67,14 @@ export class UserService {
   }
 
   async verifyEmail(email: string, code: string): Promise<boolean> {
-    const storedCode = await this.emailVerificationCodes.get(email);
+    const storedCode = this.emailVerificationCodes[email];
     if (!storedCode) {
       return false;
     }
     if (storedCode !== code) {
       return false;
     }
-    await this.emailVerificationCodes.delete(email);
+    delete this.emailVerificationCodes[email];
     return true;
   }
 
@@ -86,7 +86,7 @@ export class UserService {
     const code = Math.random()
       .toString(+process.env.STRINGCODE)
       .substring(+process.env.SUBSTRINGCODE1, +process.env.SUBSTRINGCODE2);
-    this.emailVerificationCodes.set(email, code);
+    this.emailVerificationCodes[email] = code;
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
