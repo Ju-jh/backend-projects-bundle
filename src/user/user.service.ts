@@ -67,14 +67,14 @@ export class UserService {
   }
 
   async verifyEmail(email: string, code: string): Promise<boolean> {
-    const storedCode = this.emailVerificationCodes.get(email);
+    const storedCode = await this.emailVerificationCodes.get(email);
     if (!storedCode) {
       return false;
     }
     if (storedCode !== code) {
       return false;
     }
-    this.emailVerificationCodes.delete(email);
+    await this.emailVerificationCodes.delete(email);
     return true;
   }
 
