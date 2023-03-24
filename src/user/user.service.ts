@@ -103,7 +103,7 @@ export class UserService {
       text: `안녕하세요! AMUWIKI입니다.\n\n이메일 인증 코드: ${code}\n\n이용해 주셔서 감사합니다.`,
     };
 
-    transporter.sendMail(mailOptions, (error) => {
+    await transporter.sendMail(mailOptions, (error) => {
       if (error) {
         console.log(error);
       }
