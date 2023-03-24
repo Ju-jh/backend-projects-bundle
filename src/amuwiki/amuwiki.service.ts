@@ -9,6 +9,7 @@ export class AmuwikiService {
     const result = await this.elasticsearchService.search({
       index: 'nest.amuwikis',
       body: {
+        size: 50,
         query: {
           match: {
             title: {
@@ -34,6 +35,7 @@ export class AmuwikiService {
     const result = await this.elasticsearchService.search({
       index: 'nest.amuwikis',
       body: {
+        size: 50,
         query: {
           match: {
             contributors: {
