@@ -7,6 +7,7 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
 import { VerifiedEmailSchema } from './schemas/verifiedemail.schema';
+import { ProfileSchema } from 'src/profile/schemas/profile.schema';
 
 @Module({
   imports: [
@@ -19,10 +20,15 @@ import { VerifiedEmailSchema } from './schemas/verifiedemail.schema';
         name: 'VerifiedEmail',
         schema: VerifiedEmailSchema,
       },
+      {
+        name: 'Profile',
+        schema: ProfileSchema,
+      },
     ]),
   ],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {
   static async setup(app: NestFastifyApplication) {

@@ -10,6 +10,8 @@ import { PassportModule } from '@nestjs/passport';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import fastifyStatic from 'fastify-static';
+import { Profile, ProfileSchema } from 'src/profile/schemas/profile.schema';
+import { UserService } from 'src/user/user.service';
 import {
   VerifiedEmail,
   VerifiedEmailSchema,
@@ -19,6 +21,7 @@ import {
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
+      { name: Profile.name, schema: ProfileSchema },
       { name: VerifiedEmail.name, schema: VerifiedEmailSchema },
     ]),
     UserModule,
@@ -33,7 +36,7 @@ import {
     }),
     ConfigModule,
   ],
-  providers: [MongooseModule, AuthService],
+  providers: [MongooseModule, AuthService, UserService],
   controllers: [AuthController],
   exports: [AuthService],
 })
