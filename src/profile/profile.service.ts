@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { EditNicknameDto } from './dto/editnickname.dto';
 import { EditPasswordDto } from './dto/editpassword.dto';
 import * as bcrypt from 'bcrypt';
-import { FastifyRequest } from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import * as fs from 'fs';
 import * as util from 'util';
 import { pipeline } from 'stream';
@@ -66,7 +66,8 @@ export class ProfileService {
       return { message: '이미 존재하는 닉네임입니다.' };
     }
     user.nickname = dto.nickname;
-    return await user.save();
+    await user.save();
+    return { message: '닉네임 수정했습니다.' };
   }
 
   async handleEditPassword(cookie: string, dto: EditPasswordDto) {
@@ -85,29 +86,43 @@ export class ProfileService {
       };
     }
     user.password = await bcrypt.hash(dto.newPassword, 10);
-    return await user.save();
+    await user.save();
+    return { message: '비밀번호 수정했습니다.' };
   }
 
-  async handleUploadImage(cookie: string, req: FastifyRequest) {
+  async handleUploadImage(
+    cookie: string,
+    req: FastifyRequest,
+    res: FastifyReply,
+  ) {
     const user = await this.getUser(cookie);
     const data = await req.file();
     const imageUrl = `./uploads/${data.filename}`;
+
     const temp = {
       email: user.email,
       nickname: user.nickname,
       url: imageUrl,
     };
     const Profile = await this.profileModel.findOne({ email: temp.email });
-    if (data.mimetype !== 'image/jpeg') {
+    if (data.mimetype !== 'image/jpeg' && data.mimetype !== 'image/png') {
       return { message: '파일이 이미지가 아닙니다.' };
     }
     this.getPump(data);
     if (!Profile) {
       await new this.profileModel(temp).save();
-      return { message: '프로필 이미지가 업로드되었습니다.' };
+      return res.send('프로필 이미지가 업로드되었습니다.');
     }
     Profile.url = temp.url;
     await new this.profileModel(Profile).save();
-    return { message: '프로필 이미지가 수정되었습니다.' };
+    return res.send('프로필 이미지가 수정되었습니다.');
+  }
+
+  async getImage(cookie: string): Promise<Buffer> {
+    const user = await this.getUser(cookie);
+    const profile = await this.profileModel.findOne({ email: user.email });
+    const url = await profile.url.split('/')[2];
+    const imgTag = `./uploads/${url}`;
+    return fs.readFileSync(imgTag);
   }
 }
