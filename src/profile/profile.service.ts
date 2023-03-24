@@ -123,6 +123,6 @@ export class ProfileService {
     const profile = await this.profileModel.findOne({ email: user.email });
     const url = await profile.url.split('/')[2];
     const imgTag = `./uploads/${url}`;
-    return fs.readFileSync(imgTag);
+    return await fs.readFileSync(imgTag);
   }
 }
