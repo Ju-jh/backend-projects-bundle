@@ -11,27 +11,36 @@ import * as fs from 'fs';
 import * as util from 'util';
 import { pipeline } from 'stream';
 import { UserService } from 'src/user/user.service';
+import { Storage } from '@google-cloud/storage';
 
 @Injectable()
 export class ProfileService {
   constructor(
+    private storage: Storage,
     private readonly userService: UserService,
     private readonly authService: AuthService,
     @InjectModel('Profile')
     private readonly profileModel: Model<Profile>,
-  ) {}
+  ) {
+    this.storage = new Storage({
+      projectId: 'my-project-amu',
+      keyFilename: './my-project-amu-b74433c069fd.json',
+    });
+  }
 
   async getUser(cookie: string) {
     const email = await this.authService.cookieToEmail(cookie);
     return await this.authService.getUser(email);
   }
 
-  async getPump(data) {
-    const pump = util.promisify(pipeline);
-    return await pump(
-      data.file,
-      fs.createWriteStream(`./uploads/${data.filename}`),
-    );
+  async getPump(data): Promise<NodeJS.ReadableStream> {
+    const bucketName = 'amu_photo_storage';
+    const filename = data.filename;
+    const bucket = this.storage.bucket(bucketName);
+    const file = bucket.file(filename);
+    const writeStream = file.createWriteStream();
+    await util.promisify(pipeline)(data.file, writeStream);
+    return file.createReadStream();
   }
 
   async getProfile(email) {
@@ -97,32 +106,53 @@ export class ProfileService {
   ) {
     const user = await this.getUser(cookie);
     const data = await req.file();
-    const imageUrl = `./uploads/${data.filename}`;
+
+    const bucketName = 'amu_photo_storage';
+    const filename = `${user.email}-${data.filename}`;
+    const bucket = this.storage.bucket(bucketName);
+
+    if (data.mimetype !== 'image/jpeg' && data.mimetype !== 'image/png') {
+      return { message: '파일이 이미지가 아닙니다.' };
+    }
+
+    const file = bucket.file(filename);
+    const pump = await this.getPump(data);
+    pump.pipe(file.createWriteStream());
+
+    const imageUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
 
     const temp = {
       email: user.email,
       nickname: user.nickname,
       url: imageUrl,
     };
-    const Profile = await this.profileModel.findOne({ email: temp.email });
-    if (data.mimetype !== 'image/jpeg' && data.mimetype !== 'image/png') {
-      return { message: '파일이 이미지가 아닙니다.' };
-    }
-    this.getPump(data);
-    if (!Profile) {
+
+    const profile = await this.profileModel.findOne({ email: temp.email });
+
+    if (!profile) {
       await new this.profileModel(temp).save();
       return res.send('프로필 이미지가 업로드되었습니다.');
     }
-    Profile.url = temp.url;
-    await new this.profileModel(Profile).save();
+
+    profile.url = temp.url;
+    await profile.save();
+
     return res.send('프로필 이미지가 수정되었습니다.');
   }
-
   async getImage(cookie: string): Promise<Buffer> {
     const user = await this.getUser(cookie);
-    const profile = await this.profileModel.findOne({ email: user.email });
-    const url = await profile.url.split('/')[2];
-    const imgTag = `./uploads/${url}`;
-    return await fs.readFileSync(imgTag);
+    const profile = await this.getProfile(user.email);
+
+    if (!profile || !profile.url) {
+      throw new Error('프로필 이미지가 존재하지 않습니다.');
+    }
+
+    const bucketName = 'amu_photo_storage';
+    const filename = profile.url.split('/').pop();
+    const bucket = this.storage.bucket(bucketName);
+    const file = bucket.file(filename);
+    const [fileContent] = await file.download();
+
+    return fileContent;
   }
 }

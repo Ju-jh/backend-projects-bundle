@@ -15,6 +15,8 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { fastifyMultipart } from '@fastify/multipart';
 import { Multipart } from 'fastify-multipart';
 import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
+import { Storage } from '@google-cloud/storage';
+import { StorageModule } from './storage.module';
 
 @Module({
   imports: [
@@ -32,9 +34,10 @@ import { VerifiedEmailSchema } from 'src/user/schemas/verifiedemail.schema';
     UserModule,
     AuthModule,
     AmuwikiModule,
+    StorageModule,
   ],
   controllers: [ProfileController],
-  providers: [MongooseModule, ProfileService, JwtService, UserService],
+  providers: [MongooseModule, ProfileService, JwtService, UserService, Storage],
   exports: [ProfileService],
 })
 export class ProfileModule {
