@@ -39,7 +39,7 @@
 💁🏻‍♂️ 팀원 목록표
 
 
-![화면 캡처 2023-03-18 215303](https://user-images.githubusercontent.com/117289578/226107207-d9e1d31d-ff6d-4c8b-8cec-b86b57883213.png)
+![image](https://user-images.githubusercontent.com/92284361/227670354-eaa32348-5824-4290-82d3-9f1862194eac.png)
 
 
 </aside>
@@ -48,9 +48,14 @@
 
 <aside>
 💁🏻‍♂️ elasticSearch 를 사용한 NoSQL 기반의 데이터 검색과 
-서버 이중화와 보안까지 고려해 설계하여 만든 위키백과의 한 종류 입니다.
-그리고, 기존 위키백과 사이트와의 차별점을 둔 부분은 
-새로운 위백과 데이터를 import 할 수 있도록 하였습니다.
+서버 이중화와 로드 밸런싱, 보안까지 고려해 설계하여 만든 위키백과의 한 종류 입니다.
+
+기존 위키백과 사이트와의 차별점을 둔 부분은 
+백엔드에서 Fastify - mongodb - elasticSearch, 
+프론트엔드에서  react - vite 를 활용해 속도 개선에 주로 집중 했으며,
+기존의 위키 백과처럼 검색 시에 하나만 검색해오는게 아니라 구글처럼 키워드와
+관련된 데이터를 가져오고 고를 수 있게 만들었습니다.
+또한, 새로운 위키백과 데이터를 import 할 수 있도록 하였습니다.
 
 </aside>
 
@@ -79,7 +84,7 @@
     <aside>
 🔗 BackEnd_Stack
 
-![화면 캡처 2023-03-23 163233](https://user-images.githubusercontent.com/117289578/227134873-eaf4f0b2-3020-4fa2-9758-7372e4e8a819.png)
+![image](https://user-images.githubusercontent.com/92284361/227672341-89144403-bb92-46e0-b7a2-91583a789470.png)
 
     
 
@@ -90,35 +95,36 @@
 
 - **npm**
     
-    ```json
-    "@fastify/cookie": "^6.0.0",
-    "@fastify/multipart": "^7.5.0",
-    "@nestjs/common": "^9.0.0",
-    "@nestjs/config": "^2.3.1",
-    "@nestjs/core": "^9.0.0",
-    "@nestjs/elasticsearch": "^9.0.0",
-    "@nestjs/jwt": "^10.0.2",
-    "@nestjs/mongoose": "^9.2.1",
-    "@nestjs/passport": "^9.0.3",
-    "@nestjs/platform-fastify": "^9.3.9",
-    "@nestjs/swagger": "^6.2.1",
-    "@types/elasticsearch": "^5.0.40",
-    "@types/passport-jwt": "^3.0.8",
-    "bcrypt": "^5.1.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.0",
-    "elasticsearch": "^16.7.3",
-    "fastify-cookie": "^5.7.0",
-    "fastify-multipart": "^5.4.0",
-    "fastify-static": "^4.7.0",
-    "mongoose": "^6.10.2",
-    "nest-fastify-multer": "^1.0.1",
-    "nodemailer": "^6.9.1",
-    "nodemailer-smtp-transport": "^2.7.4",
-    "passport-jwt": "^4.0.1",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
-    ```
+```json
+"@fastify/cookie": "^6.0.0",
+"@fastify/multipart": "^7.5.0",
+"@google-cloud/storage": "^6.9.4",
+"@nestjs/common": "^9.0.0",
+"@nestjs/config": "^2.3.1",
+"@nestjs/core": "^9.0.0",
+"@nestjs/elasticsearch": "^9.0.0",
+"@nestjs/jwt": "^10.0.2",
+"@nestjs/mongoose": "^9.2.1",
+"@nestjs/passport": "^9.0.3",
+"@nestjs/platform-fastify": "^9.3.9",
+"@nestjs/swagger": "^6.2.1",
+"@types/elasticsearch": "^5.0.40",
+"@types/passport-jwt": "^3.0.8",
+"bcrypt": "^5.1.0",
+"class-transformer": "^0.5.1",
+"class-validator": "^0.14.0",
+"elasticsearch": "^16.7.3",
+"fastify-cookie": "^5.7.0",
+"fastify-multipart": "^5.4.0",
+"fastify-static": "^4.7.0",
+"mongoose": "^6.10.2",
+"nest-fastify-multer": "^1.0.1",
+"nodemailer": "^6.9.1",
+"nodemailer-smtp-transport": "^2.7.4",
+"passport-jwt": "^4.0.1",
+"reflect-metadata": "^0.1.13",
+"rxjs": "^7.2.0"
+```
     
 
 - **Code Review Time**
@@ -145,8 +151,8 @@
 
 📃 API 표
 
-![화면 캡처 2023-03-23 162840](https://user-images.githubusercontent.com/117289578/227133318-d195ef6a-fdbd-4be9-848b-9c801b3b4a2a.png)
-
+![image](https://user-images.githubusercontent.com/92284361/227671111-9f394da7-708e-45ef-93ce-ecd0839b7b6d.png)
+    
 </aside>
 
 ## **기능구현 분담**
@@ -155,35 +161,46 @@
 🙋🏻‍♂️  Dividing the implementation of Infrastructure features.
 
 - 이기웅
-    - CI / CD
+    - Virtualization Technology
         
-        GitHub Action
+        Docker
         
     - AWS
-
+    - GitHub Action
 - 정붕기
     - Virtualization Technology
         
         Docker
         
     - ElasticSearch
-    
     - AWS
-    
 - 주재훈
+    - Virtualization Technology
+        
+        Docker-compose
+        
     - MongoDB manager
         
-    - AWS
+        Managing DB
         
+    - Cloud Database
+        
+        google-cloud/storage
+        
+    - AWS
+        - https - Enable certification
+            
+            Testing VPC
+            
 - 한창윤
     - Virtualization Technology
         
         Docker
         
     - ElasticSearch
-    
     - AWS
-    
+        
+        
 - 조현수
     - Virtualization Technology
         
@@ -202,27 +219,29 @@
 🙋🏻‍♂️ Dividing the implementation of Server features.
 
 - 이기웅
-   1. View user profile
-   2. Edit user profile - nickname, password
-   3. Upload profile photo
-   4. Edit profile photo
+    1. View user profile
+    2. Edit user profile - nickname, password
+    3. Upload profile photo
+    4. Edit profile photo
     
 - 조현수
-   1. Retrieve a post
-   2. Create a post
-   3. Edit a post
-   4. Delete a post
+    1. Retrieve a post
+    2. Create a post
+    3. Edit a post
+    4. Delete a post
+
 - 주재훈
-   1. Send email verification code
-   2. Verify email address
-   3. User signup
-   4. User login
-   5. User logout
-   6. User withdrawal
+    1. Send email verification code
+    2. Verify email address
+    3. User signup
+    4. User login
+    5. User logout
+    6. User withdrawal
     
 - 정붕기
     1. Elasticsearch
-    
+    2. Vite+React
+
 - 한창윤
     1. Elasticsearch
     
@@ -231,7 +250,8 @@
 
 ## Architecture
 
-![Lv1](https://user-images.githubusercontent.com/117289578/227130486-711e9829-f50f-45bd-a1ff-7dd39d2be208.png)
+![Lv1 (2)](https://user-images.githubusercontent.com/92284361/227671717-3aa5e288-ba84-48c3-9711-057d0a901efb.png)
+
 
 
 
