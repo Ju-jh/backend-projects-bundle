@@ -1,9 +1,3 @@
-# BE_Projects
-Backend Projects Bundle
-
-## Projects
-
----
 
 ## Backend_AmuWiki **(아무위키)**
 
@@ -76,8 +70,6 @@ Backend Projects Bundle
         보안 강화를 위해 ssl 인증서를 통한 https로 변경
         
 
----
-
 - Github : [**AmuWiki(아무위키) Github URL**](https://github.com/lkw9/amu_be)
 - Brochure : [AmuWiki(아무위키) Brochure URL](https://www.notion.so/AmuWiki-87-4c216ba5fe50498280e3c6a252286d55?pvs=21)
 - Blog 회고 : [AmuWiki(아무위키) Blog 회고 URL](https://jrogrammer.tistory.com/238)
@@ -124,8 +116,6 @@ Backend Projects Bundle
         
         Nginx를 통한 서버의 이중화
         
-
----
 
 - Github : [Dwitter(트위터 클론코딩) Github URL](https://github.com/goingtodev/CloneCoding_Twitter_BE)
 - Brochure : [Dwitter(트위터 클론코딩) Brochure URL](https://www.notion.so/99-2-a0d1e7a7e3f34c67b379b838c1d74741?pvs=21)
