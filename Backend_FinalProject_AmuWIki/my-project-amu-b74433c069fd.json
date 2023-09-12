@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "my-project-amu",
+  "private_key_id": "b74433c069fdcf19462cd2c33eea10f55fb598a3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCKdt95ibzDZU0j\nGCJc2kB9xG2oy+S4BZ7Cyrqp2chxazjrtukBIy5YnBaincK6NKVtqQh1rg/9X9OD\nZB1nVr2I6Ixu4xIgodeeZmVvEqudIf3hKdEr16bPlVJ91vX5zdpwLX5fOUgENtsr\nEUDn5FsGzHjNFFvouxzhakCHYTSH0+GoMS/Hh4NOUm/uxe/qkwUlTht1sBOCTsCe\nmkdQ1/TEcGDTCEGY+JETB/Ij3PJ6M6w9c/PjeZvgA8tNYsu1iRJrB+y5UR62A+qY\ncclghCN2YZCWjv/v444FL5/pQWVpvzpp0UxJTFfYgPuqT9SAKGx8I99oNVsDpYRW\nMmO365+9AgMBAAECggEAEIx8EZnXdHABS+I4yymvnwhwxcWWsLLFQok5zY6QoROc\nUjnCd+cVRTRklStvSFN9+REEiJIU6abAEBpRVFY+4WPP0vnzIvDM5SreUSvlVGqp\nXfWiQQ/taS5y1UTxkZlbk+AwFB/zvkMzJx7RB9YYVgPupS4bfQGOBlftXfDNdzU7\n5V3U37oInp7TDlI/rDIMPFGMwty/LIxGbXQzNckt6qz26BZ6KLOZmcA2y1DR23KZ\nk4J29p5Pgc2X2zaEaQRTbgl8otjWCHSdaFRNEoLZer65952SjzxM6iDyKDCposSE\nX0ShnG5fpeqo94pkyQ5S2yryiopDU8+DFx1wlKGo0QKBgQDAj+4BYcXyR5itvy5N\n2mhS+zHrLRyUBNKogjPOkzh8YZPyTo7RHDg5iUlbXAuAdFNZLjxUPoEY+i4D/4St\nKtiYFOQn44qcjknsltU+obRwLKo2gx7VyImGQwkwLb68othSQpD16Hom65zK4aw7\nsv4auyYgVfX68kBEtKgwoAsg0QKBgQC4FIEsb0DuHITfCEXFEZsWfX3/uBEXK/2a\nPXi6YrOe/WhpWhA9fMRzPfVAFDhC6NBmE9lK2EyPeiYG8eJ6frxkhl3blorXQL+5\ndHY/oQPQbAj83k1PdbTNoBUWsMm6AvHAzS8qkohn8CyUZVXfoLRNibrtPrg1rvmc\nAZQlLyfrLQKBgD8E25eIMAgCdm0mTDkeaVX+729P7DJlAaw0MFBCzhGmvYxnOUYm\nPiBWVbOYhAseBskA4K2RZx6NgdG9JeamRww+igyj4xEpX/gVxOQid7LeazY74zOD\n1b4i4jbqQanqgXEqZ9aSpqdmJIIhKQTAp3iIFwouF7pw3aeemAyR1BKBAoGAbH1h\nODAFo5BZWx2ECUZ8EgA6H1l7cR2zJJFwMuFzHZQaUmULR0HeglEU1wRTuFOAZ3jx\nSuQ6EyGZgeRTZ4CERfbPIFkUURLPLF0QSCX8mnzhuy7Ff7xOqBXd9/aPnbqYgtor\nHzsne6KYk4k52EfdnAk9iw+4/6K1aBWiG1w0ea0CgYEAmtnDDVlecQRIeaqAoQzW\n96KopRGC9Jv60TWFKdaHlp6yAeQ5OD0ykjxYueyfa8HTgen5zZ6xBVNygXXX+5Dv\nf1r2pyDURGw50v9WlhgCMEOT8sCU3H8m/+vX1MdFD/KhHypeikkv493MExnl6qKW\nXlrXTThVvuVvv94kAA3Gc/w=\n-----END PRIVATE KEY-----\n",
+  "client_email": "amuphotostorage@my-project-amu.iam.gserviceaccount.com",
+  "client_id": "100205273110522028436",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/amuphotostorage%40my-project-amu.iam.gserviceaccount.com"
+}

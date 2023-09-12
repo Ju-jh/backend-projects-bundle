@@ -1,0 +1,58 @@
+name: Build and Deploy Docker Image
+
+on: 
+  push: 
+    branches: 
+      - main 
+ 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - uses: actions/setup-node@v3
+        with:
+            node-version: '18'
+      - name: Generate Environment Variables File for Production
+        run: |
+            echo "PORT=$PORT" >> .env
+            echo "MONGODB_URI=$MONGODB_URI" >> .env
+            echo "ELASTICSEARCH_NODE=$ELASTICSEARCH_NODE" >> .env
+            echo "ELASTICSEARCH_USERNAME=$ELASTICSEARCH_USERNAME" >> .env
+            echo "ELASTICSEARCH_PASSWORD=$ELASTICSEARCH_PASSWORD" >> .env
+            echo "ACCESS_TOKEN_PRIVATE_KEY=$ACCESS_TOKEN_PRIVATE_KEY" >> .env
+            echo "NODEMAILER_USERNAME=$NODEMAILER_USERNAME" >> .env
+            echo "NODEMAILER_PASSWORD=$NODEMAILER_PASSWORD" >> .env
+            echo "STRINGCODE=$STRINGCODE" >> .env
+            echo "SUBSTRINGCODE1=$SUBSTRINGCODE1" >> .env
+            echo "SUBSTRINGCODE2=$SUBSTRINGCODE2" >> .env
+        env:
+            PORT: ${{ secrets.PORT }}
+            MONGODB_URI: ${{ secrets.MONGODB_URI }}
+            ELASTICSEARCH_NODE: ${{ secrets.ELASTICSEARCH_NODE }}
+            ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
+            ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+            ACCESS_TOKEN_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN_PRIVATE_KEY }}
+            NODEMAILER_USERNAME: ${{ secrets.NODEMAILER_USERNAME }}
+            NODEMAILER_PASSWORD: ${{ secrets.NODEMAILER_PASSWORD }}
+            STRINGCODE: ${{ secrets.STRINGCODE }}
+            SUBSTRINGCODE1: ${{ secrets.SUBSTRINGCODE1 }}
+            SUBSTRINGCODE2: ${{ secrets.SUBSTRINGCODE2 }}
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: lkw9/amu:v1.0
