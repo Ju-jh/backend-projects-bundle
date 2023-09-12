@@ -82,10 +82,6 @@ Backend Projects Bundle
 - Brochure : [AmuWiki(아무위키) Brochure URL](https://www.notion.so/AmuWiki-87-4c216ba5fe50498280e3c6a252286d55?pvs=21)
 - Blog 회고 : [AmuWiki(아무위키) Blog 회고 URL](https://jrogrammer.tistory.com/238)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63de5777-4926-4b5c-b120-58c78880b07b/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/36cffc3d-1fda-47ca-8eec-3ab1f7e021e0/Untitled.png)
-
 ---
 
 ## Backend_Dwitter **(트위터 클론코딩)**
